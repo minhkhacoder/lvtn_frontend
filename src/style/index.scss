@@ -1,0 +1,11 @@
+/** @format */
+@import "reset";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: "Nunito", sans-serif;
+  margin: 0;
+  box-sizing: border-box;
+}
