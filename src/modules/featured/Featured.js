@@ -1,5 +1,5 @@
 /** @format */
-import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import { easeQuadInOut } from "d3-ease";
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -8,11 +8,12 @@ import ErrorComponent from "components/common/ErrorComponent";
 import React from "react";
 import { withErrorBoundary } from "react-error-boundary";
 import styled from "styled-components";
+import HelpOutline from "components/icons/HelpOutline";
+import Heading from "components/heading/Heading";
+import AnimatedProgressProvider from "components/common/AnimatedProgressProvider";
 
 const FeaturedStyled = styled.div`
   flex: 2;
-  -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
-  box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
   padding: 10px;
 
   .top {
@@ -53,7 +54,7 @@ const FeaturedStyled = styled.div`
     .desc {
       font-weight: 300;
       font-size: 12px;
-      color: gray;
+      color: ${(props) => props.theme.darkgray};
       text-align: center;
     }
 
@@ -71,18 +72,16 @@ const FeaturedStyled = styled.div`
           color: ${(props) => props.theme.gray};
         }
 
-        .itemResult {
+        .item-result {
           display: flex;
           align-items: center;
           margin-top: 10px;
           font-size: 14px;
-
           &.positive {
-            color: green;
+            color: #32cd32;
           }
-
           &.negative {
-            color: red;
+            color: #ff0000;
           }
         }
       }
@@ -91,25 +90,37 @@ const FeaturedStyled = styled.div`
 `;
 
 const Featured = () => {
+  let percentage = 70;
   return (
-    <FeaturedStyled>
+    <FeaturedStyled className="card-shadow">
       <div className="top">
-        <h1 className="title">Total Revenue</h1>
-        <HelpOutlineIcon fontSize="small" />
+        <Heading title="Total Revenue"></Heading>
+        <HelpOutline className="flex items-center"></HelpOutline>
       </div>
       <div className="bottom">
         <div className="featured-chart">
-          <CircularProgressbar
-            value={70}
-            text={"70%"}
-            strokeWidth={5}
-            styles={buildStyles({
-              pathColor: "#7451f8",
-              textColor: "#7451f8",
-              trailColor: "#ece8ff",
-              backgroundColor: "#3e98c7",
-            })}
-          />
+          <AnimatedProgressProvider
+            valueStart={0}
+            valueEnd={percentage}
+            duration={1.4}
+            easingFunction={easeQuadInOut}
+          >
+            {(value) => {
+              const roundedValue = Math.round(value);
+              return (
+                <CircularProgressbar
+                  value={value}
+                  text={`${roundedValue}%`}
+                  styles={buildStyles({
+                    pathTransition: "none",
+                    pathColor: "#7451f8",
+                    textColor: "#7451f8",
+                    trailColor: "#ece8ff",
+                  })}
+                />
+              );
+            }}
+          </AnimatedProgressProvider>
         </div>
         <p className="title">Total sales made today</p>
         <p className="amount">$420</p>
@@ -119,23 +130,23 @@ const Featured = () => {
         <div className="summary">
           <div className="item">
             <div className="item-title">Target</div>
-            <div className="itemResult negative">
+            <div className="item-result negative">
               <KeyboardArrowDownIcon fontSize="small" />
-              <div className="resultAmount">$12.4k</div>
+              <div className="result-amount">$12.4k</div>
             </div>
           </div>
           <div className="item">
             <div className="item-title">Last Week</div>
-            <div className="itemResult positive">
+            <div className="item-result positive">
               <KeyboardArrowUpOutlinedIcon fontSize="small" />
-              <div className="resultAmount">$12.4k</div>
+              <div className="result-amount">$12.4k</div>
             </div>
           </div>
           <div className="item">
             <div className="item-title">Last Month</div>
-            <div className="itemResult positive">
+            <div className="item-result positive">
               <KeyboardArrowUpOutlinedIcon fontSize="small" />
-              <div className="resultAmount">$12.4k</div>
+              <div className="result-amount">$12.4k</div>
             </div>
           </div>
         </div>

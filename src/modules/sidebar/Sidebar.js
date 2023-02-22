@@ -1,15 +1,12 @@
 /** @format */
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import StoreIcon from "@mui/icons-material/Store";
 import InsertChartIcon from "@mui/icons-material/InsertChart";
-import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import SettingsSystemDaydreamOutlinedIcon from "@mui/icons-material/SettingsSystemDaydreamOutlined";
-import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import ErrorComponent from "components/common/ErrorComponent";
 import { DarkModeContext } from "contexts/darkModeContext";
@@ -17,6 +14,7 @@ import React, { useContext } from "react";
 import { withErrorBoundary } from "react-error-boundary";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { Dropdown } from "components/dropdown";
 
 const SidebarStyled = styled.div`
   flex: 1;
@@ -58,20 +56,22 @@ const SidebarStyled = styled.div`
         text-transform: uppercase;
       }
 
+      .link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-right: 12px;
+        text-transform: capitalize;
+        &:hover {
+          background-color: ${(props) => props.theme.secondary};
+        }
+      }
+
       li {
         display: flex;
         align-items: center;
         padding: 5px;
         cursor: pointer;
-
-        &:hover {
-          background-color: ${(props) => props.theme.secondary};
-        }
-
-        .icon {
-          font-size: 18px;
-          color: ${(props) => props.theme.primary};
-        }
 
         span {
           font-size: 13px;
@@ -79,6 +79,10 @@ const SidebarStyled = styled.div`
           color: ${(props) => props.theme.gray};
           margin-left: 10px;
         }
+      }
+      .icon {
+        font-size: 18px;
+        color: ${(props) => props.theme.primary};
       }
     }
   }
@@ -88,7 +92,7 @@ const SidebarStyled = styled.div`
     align-items: center;
     margin: 10px;
 
-    .colorOption {
+    .color-option {
       width: 20px;
       height: 20px;
       border-radius: 5px;
@@ -114,7 +118,7 @@ const Sidebar = () => {
   return (
     <SidebarStyled>
       <div className="top">
-        <Link to="/" style={{ textDecoration: "none" }}>
+        <Link to="/" style={{ textDecoration: "none" }} className="link">
           <span className="logo">mesports</span>
         </Link>
       </div>
@@ -122,31 +126,74 @@ const Sidebar = () => {
       <div className="center">
         <ul>
           <p className="title">MAIN</p>
-          <li>
-            <DashboardIcon className="icon" />
-            <span>Dashboard</span>
-          </li>
+          <Link to="/" style={{ textDecoration: "none" }} className="link">
+            <li>
+              <DashboardIcon className="icon" />
+              <span>Dashboard</span>
+            </li>
+          </Link>
           <p className="title">LIST</p>
-          <Link to="/users" style={{ textDecoration: "none" }}>
-            <li>
-              <PersonOutlineIcon className="icon" />
-              <span>Users</span>
-            </li>
-          </Link>
-          <Link to="/products" style={{ textDecoration: "none" }}>
-            <li>
+          <Dropdown>
+            <Dropdown.Select placeholder="Products">
               <StoreIcon className="icon" />
-              <span>Products</span>
+            </Dropdown.Select>
+            <Dropdown.List>
+              <Dropdown.Option
+                to="/all-products"
+                className="pl-[28px] link py-[5px]"
+              >
+                All products
+              </Dropdown.Option>
+              <Dropdown.Option
+                to="/add-product"
+                className="pl-[28px] link py-[5px]"
+              >
+                Add products
+              </Dropdown.Option>
+              <Dropdown.Option
+                to="/violating-product"
+                className="pl-[28px] link py-[5px]"
+              >
+                Violating product
+              </Dropdown.Option>
+            </Dropdown.List>
+          </Dropdown>
+          <Dropdown>
+            <Dropdown.Select placeholder="Orders">
+              <CreditCardIcon className="icon" />
+            </Dropdown.Select>
+            <Dropdown.List>
+              <Dropdown.Option
+                to="/all-orders"
+                className="pl-[28px] link py-[5px]"
+              >
+                All
+              </Dropdown.Option>
+              <Dropdown.Option
+                to="/cancel-orders"
+                className="pl-[28px] link py-[5px]"
+              >
+                Cancelled
+              </Dropdown.Option>
+              <Dropdown.Option
+                to="/return-refund-orders"
+                className="pl-[28px] link py-[5px]"
+              >
+                Return / Refund
+              </Dropdown.Option>
+            </Dropdown.List>
+          </Dropdown>
+          <Link
+            to="/delivery"
+            style={{ textDecoration: "none" }}
+            className="link"
+          >
+            <li>
+              <LocalShippingIcon className="icon" />
+              <span>Delivery</span>
             </li>
           </Link>
-          <li>
-            <CreditCardIcon className="icon" />
-            <span>Orders</span>
-          </li>
-          <li>
-            <LocalShippingIcon className="icon" />
-            <span>Delivery</span>
-          </li>
+
           <p className="title">USEFUL</p>
           <li>
             <InsertChartIcon className="icon" />
@@ -156,20 +203,7 @@ const Sidebar = () => {
             <NotificationsNoneIcon className="icon" />
             <span>Notifications</span>
           </li>
-          <p className="title">SERVICE</p>
-          <li>
-            <SettingsSystemDaydreamOutlinedIcon className="icon" />
-            <span>System Health</span>
-          </li>
-          <li>
-            <PsychologyOutlinedIcon className="icon" />
-            <span>Logs</span>
-          </li>
-          <li>
-            <SettingsApplicationsIcon className="icon" />
-            <span>Settings</span>
-          </li>
-          <p className="title">USER</p>
+          <p className="title">SETTING</p>
           <li>
             <AccountCircleOutlinedIcon className="icon" />
             <span>Profile</span>
@@ -182,11 +216,11 @@ const Sidebar = () => {
       </div>
       <div className="bottom">
         <div
-          className="colorOption"
+          className="color-option"
           onClick={() => dispatch({ type: "LIGHT" })}
         ></div>
         <div
-          className="colorOption"
+          className="color-option"
           onClick={() => dispatch({ type: "DARK" })}
         ></div>
       </div>

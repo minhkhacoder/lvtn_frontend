@@ -5,16 +5,15 @@ import React from "react";
 import { withErrorBoundary } from "react-error-boundary";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
-import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import styled from "styled-components";
+import HelpOutline from "components/icons/HelpOutline";
+import Heading from "components/heading/Heading";
 
 const WidgetStyled = styled.div`
   display: flex;
   justify-content: space-between;
   flex: 1;
   padding: 10px;
-  -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
-  box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
   border-radius: 10px;
   height: 100px;
 
@@ -23,12 +22,6 @@ const WidgetStyled = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
-    .title {
-      font-weight: bold;
-      font-size: 14px;
-      color: ${(props) => props.theme.gray};
-    }
 
     .counter {
       font-size: 28px;
@@ -41,13 +34,6 @@ const WidgetStyled = styled.div`
       color: ${(props) => props.theme.dimgray};
     }
 
-    .help {
-      display: flex;
-      align-items: center;
-      justify-content: end;
-      color: ${(props) => props.theme.darkgray};
-      cursor: pointer;
-    }
     .positive {
       color: #32cd32;
     }
@@ -105,18 +91,16 @@ const Widget = ({ type }) => {
   }
 
   return (
-    <WidgetStyled>
+    <WidgetStyled className="card-shadow">
       <div className="left">
-        <span className="title">{data.title}</span>
+        <Heading title={data.title} className="text-sm"></Heading>
         <span className="counter">
           {amount} {data.isPercent && "%"}
         </span>
         <span className="link">with yesterday {diff}%</span>
       </div>
       <div className="right">
-        <div className="help">
-          <HelpOutlineIcon fontSize="small" />
-        </div>
+        <HelpOutline className="flex items-center justify-end"></HelpOutline>
         {data.icon}
       </div>
     </WidgetStyled>
