@@ -6,7 +6,6 @@ import StoreIcon from "@mui/icons-material/Store";
 import InsertChartIcon from "@mui/icons-material/InsertChart";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import ErrorComponent from "components/common/ErrorComponent";
 import { DarkModeContext } from "contexts/darkModeContext";
@@ -18,7 +17,7 @@ import { Dropdown } from "components/dropdown";
 
 const SidebarStyled = styled.div`
   flex: 1;
-  border-right: 0.5px solid ${(props) => props.theme.gainsboro};
+  border-right: 0.5px solid ${(props) => props.theme.text3};
   min-height: 100vh;
   background-color: white;
   .top {
@@ -30,13 +29,13 @@ const SidebarStyled = styled.div`
     .logo {
       font-size: 20px;
       font-weight: bold;
-      color: ${(props) => props.theme.third};
+      color: ${(props) => props.theme.primary};
     }
   }
 
   hr {
     height: 0;
-    border: 0.5px solid ${(props) => props.theme.gainsboro};
+    border: 0.5px solid ${(props) => props.theme.text3};
   }
 
   .center {
@@ -50,7 +49,7 @@ const SidebarStyled = styled.div`
       .title {
         font-size: 10px;
         font-weight: bold;
-        color: ${(props) => props.theme.dimgray};
+        color: ${(props) => props.theme.text};
         margin-top: 15px;
         margin-bottom: 5px;
         text-transform: uppercase;
@@ -63,7 +62,7 @@ const SidebarStyled = styled.div`
         padding-right: 12px;
         text-transform: capitalize;
         &:hover {
-          background-color: ${(props) => props.theme.secondary};
+          background-color: ${(props) => props.theme.six};
         }
       }
 
@@ -76,7 +75,7 @@ const SidebarStyled = styled.div`
         span {
           font-size: 13px;
           font-weight: 600;
-          color: ${(props) => props.theme.gray};
+          color: ${(props) => props.theme.text};
           margin-left: 10px;
         }
       }

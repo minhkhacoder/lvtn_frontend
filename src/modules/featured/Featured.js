@@ -21,7 +21,7 @@ const FeaturedStyled = styled.div`
     align-items: center;
     justify-content: flex-start;
     gap: 10px;
-    color: ${(props) => props.theme.gray};
+    color: ${(props) => props.theme.text};
     text-transform: uppercase;
     .title {
       font-size: 16px;
@@ -44,7 +44,7 @@ const FeaturedStyled = styled.div`
 
     .title {
       font-weight: 500;
-      color: ${(props) => props.theme.gray};
+      color: ${(props) => props.theme.text};
     }
 
     .amount {
@@ -54,7 +54,7 @@ const FeaturedStyled = styled.div`
     .desc {
       font-weight: 300;
       font-size: 12px;
-      color: ${(props) => props.theme.darkgray};
+      color: ${(props) => props.theme.text1};
       text-align: center;
     }
 
@@ -69,7 +69,7 @@ const FeaturedStyled = styled.div`
 
         .item-title {
           font-size: 14px;
-          color: ${(props) => props.theme.gray};
+          color: ${(props) => props.theme.text};
         }
 
         .item-result {

@@ -13,11 +13,11 @@ import styled from "styled-components";
 
 const NavbarStyled = styled.div`
   height: 50px;
-  border-bottom: 0.5px solid ${(props) => props.theme.gainsboro};
+  border-bottom: 0.5px solid ${(props) => props.theme.text3};
   display: flex;
   align-items: center;
   font-size: 14px;
-  color: ${(props) => props.theme.dimgray};
+  color: ${(props) => props.theme.text};
 
   .wrapper {
     width: 100%;

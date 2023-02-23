@@ -23,13 +23,12 @@ const data = [
 
 const ChartStyled = styled.div`
   flex: 4;
-  -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
-  box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
   padding: 10px;
-  color: gray;
+  color: ${(props) => props.theme.text};
 
   .title {
     margin-bottom: 20px;
+    color: ${(props) => props.theme.text};
   }
 
   .chart-grid {
@@ -39,7 +38,7 @@ const ChartStyled = styled.div`
 
 const Chart = ({ aspect, title }) => {
   return (
-    <ChartStyled>
+    <ChartStyled className="card-shadow">
       <div className="title">{title}</div>
       <ResponsiveContainer width="100%" aspect={aspect}>
         <AreaChart

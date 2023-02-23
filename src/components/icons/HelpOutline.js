@@ -7,7 +7,7 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import styled from "styled-components";
 
 const HelpOutlineStyled = styled.div`
-  color: ${(props) => props.theme.darkgray};
+  color: ${(props) => props.theme.text2};
   cursor: pointer;
 `;
 

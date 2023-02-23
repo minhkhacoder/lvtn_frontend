@@ -5,11 +5,9 @@ import Featured from "modules/featured/Featured";
 import Heading from "components/heading/Heading";
 import ListWork from "modules/listwork/ListWork";
 import Navbar from "modules/navbar/Navbar";
-import Sidebar from "modules/sidebar/Sidebar";
 import Widget from "modules/widget/Widget";
 import React from "react";
 import styled from "styled-components";
-import { DropdownProvider } from "contexts/dropdownContext";
 
 const data = [
   {
@@ -55,10 +53,6 @@ const data = [
 ];
 
 const DashboardStyled = styled.div`
-  display: flex;
-  .db-container {
-    flex: 6;
-  }
   .widgets,
   .charts {
     display: flex;
@@ -87,29 +81,23 @@ const DashboardStyled = styled.div`
 const Dashboard = () => {
   return (
     <DashboardStyled>
-      <DropdownProvider>
-        <Sidebar></Sidebar>
-      </DropdownProvider>
-      <div className="db-container">
-        <Navbar></Navbar>
-        <div className="widgets">
-          <Widget type="visits"></Widget>
-          <Widget type="views"></Widget>
-          <Widget type="orders"></Widget>
-          <Widget type="rate"></Widget>
-        </div>
+      <div className="widgets">
+        <Widget type="visits"></Widget>
+        <Widget type="views"></Widget>
+        <Widget type="orders"></Widget>
+        <Widget type="rate"></Widget>
+      </div>
 
-        <div className="list-container card-shadow">
-          <Heading
-            title={"List work"}
-            desc={"Things you will have to do"}
-          ></Heading>
-          <ListWork data={data}></ListWork>
-        </div>
-        <div className="charts">
-          <Chart title="Last 6 Months (Revenue)" aspect={2 / 1}></Chart>
-          <Featured></Featured>
-        </div>
+      <div className="list-container card-shadow">
+        <Heading
+          title={"List work"}
+          desc={"Things you will have to do"}
+        ></Heading>
+        <ListWork data={data}></ListWork>
+      </div>
+      <div className="charts">
+        <Chart title="Last 6 Months (Revenue)" aspect={2 / 1}></Chart>
+        <Featured></Featured>
       </div>
     </DashboardStyled>
   );

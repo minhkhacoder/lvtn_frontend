@@ -13,7 +13,7 @@ const SelectStyled = styled.div`
   justify-content: space-between;
   padding-right: 12px;
   &:hover {
-    background-color: ${(props) => props.theme.secondary};
+    background-color: ${(props) => props.theme.six};
   }
   li {
     display: flex;
@@ -23,7 +23,7 @@ const SelectStyled = styled.div`
     span {
       font-size: 13px;
       font-weight: 600;
-      color: ${(props) => props.theme.gray};
+      color: ${(props) => props.theme.text};
       margin-left: 10px;
     }
   }
@@ -38,9 +38,9 @@ const Select = ({ placeholder = "", className = "", children = "" }) => {
         <span>{placeholder}</span>
       </li>
       {show ? (
-        <KeyboardArrowUpIcon fontSize="small" className="text-gray" />
+        <KeyboardArrowUpIcon fontSize="small" className="text-text" />
       ) : (
-        <KeyboardArrowDownIcon fontSize="small" className="text-gray" />
+        <KeyboardArrowDownIcon fontSize="small" className="text-text" />
       )}
     </SelectStyled>
   );

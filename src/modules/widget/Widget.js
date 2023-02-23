@@ -31,7 +31,7 @@ const WidgetStyled = styled.div`
     .link {
       width: max-content;
       font-size: 12px;
-      color: ${(props) => props.theme.dimgray};
+      color: ${(props) => props.theme.text1};
     }
 
     .positive {

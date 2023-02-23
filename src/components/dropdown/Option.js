@@ -9,7 +9,7 @@ import styled from "styled-components";
 const OptionStyled = styled.div`
   font-size: 13px;
   font-weight: 600;
-  color: ${(props) => props.theme.gray};
+  color: ${(props) => props.theme.text};
 `;
 
 const Option = ({

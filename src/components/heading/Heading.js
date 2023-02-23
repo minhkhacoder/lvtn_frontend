@@ -10,12 +10,12 @@ const HeadingStyled = styled.div`
   flex-direction: column;
   .title {
     font-weight: bold;
-    color: ${(props) => props.theme.gray};
+    color: ${(props) => props.theme.text};
     text-transform: uppercase;
   }
   .desc {
     font-size: 12px;
-    color: ${(props) => props.theme.darkgray};
+    color: ${(props) => props.theme.text1};
   }
 `;
 

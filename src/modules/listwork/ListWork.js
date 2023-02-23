@@ -23,7 +23,7 @@ const ListWorkStyled = styled.div`
   .name {
     font-size: 14px;
     text-transform: capitalize;
-    color: ${(props) => props.theme.darkgray};
+    color: ${(props) => props.theme.text};
   }
 `;
 

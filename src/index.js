@@ -7,9 +7,10 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { DarkModeContextProvider } from "./contexts/darkModeContext";
-import { ThemeProvider } from "styled-components";
 import { theme } from "utils/constants";
 import { GlobalStyles } from "style/GlobalStyles";
+import { ThemeProvider } from "styled-components";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ThemeProvider theme={theme}>
