@@ -150,10 +150,10 @@ const Sidebar = () => {
                 Add products
               </Dropdown.Option>
               <Dropdown.Option
-                to="/violating-product"
+                to="/infringing-products"
                 className="pl-[28px] link py-[5px]"
               >
-                Violating product
+                Infringing products
               </Dropdown.Option>
             </Dropdown.List>
           </Dropdown>

@@ -21,6 +21,9 @@ export const themeMaterial = createTheme({
     secondary: {
       main: "#7e3ff2",
     },
+    third: {
+      main: "#9965f4",
+    },
     darkgray: {
       main: "#A9A9A9",
     },
@@ -32,6 +35,9 @@ export const themeMaterial = createTheme({
     },
     gainsboro: {
       main: "#E6E3E3",
+    },
+    red: {
+      main: "red",
     },
   },
 });

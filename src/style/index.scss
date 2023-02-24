@@ -14,3 +14,9 @@
   -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
   box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
 }
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 0.1fr; /* cột 1 và 2 có độ rộng bằng nhau, cột 3 có độ rộng bằng 1/2 của cột 1 và 2 */
+  grid-gap: 20px; /* khoảng cách giữa các cột */
+}
