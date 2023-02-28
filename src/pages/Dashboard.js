@@ -4,7 +4,6 @@ import Chart from "modules/chart/Chart";
 import Featured from "modules/featured/Featured";
 import Heading from "components/heading/Heading";
 import ListWork from "modules/listwork/ListWork";
-import Navbar from "modules/navbar/Navbar";
 import Widget from "modules/widget/Widget";
 import React from "react";
 import styled from "styled-components";

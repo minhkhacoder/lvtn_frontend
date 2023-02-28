@@ -9,11 +9,14 @@ import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import ErrorComponent from "components/common/ErrorComponent";
 import { DarkModeContext } from "contexts/darkModeContext";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { withErrorBoundary } from "react-error-boundary";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Dropdown } from "components/dropdown";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "store/actions/auth/authAction";
+import { getUser } from "utils/cookies";
 
 const SidebarStyled = styled.div`
   flex: 1;
@@ -71,7 +74,9 @@ const SidebarStyled = styled.div`
         align-items: center;
         padding: 5px;
         cursor: pointer;
-
+        &:hover {
+          background-color: ${(props) => props.theme.six};
+        }
         span {
           font-size: 13px;
           font-weight: 600;
@@ -113,7 +118,18 @@ const SidebarStyled = styled.div`
 `;
 
 const Sidebar = () => {
-  const { dispatch } = useContext(DarkModeContext);
+  const { dis } = useContext(DarkModeContext);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const auth = useSelector((state) => state.auth);
+  const handleLogOut = () => {
+    dispatch(logout());
+  };
+  const user = getUser();
+
+  useEffect(() => {
+    if (auth === null || user === undefined) navigate("/login");
+  }, [navigate, user, auth]);
   return (
     <SidebarStyled>
       <div className="top">
@@ -207,7 +223,7 @@ const Sidebar = () => {
             <AccountCircleOutlinedIcon className="icon" />
             <span>Profile</span>
           </li>
-          <li>
+          <li onClick={handleLogOut}>
             <ExitToAppIcon className="icon" />
             <span>Logout</span>
           </li>
@@ -216,11 +232,11 @@ const Sidebar = () => {
       <div className="bottom">
         <div
           className="color-option"
-          onClick={() => dispatch({ type: "LIGHT" })}
+          onClick={() => dis({ type: "LIGHT" })}
         ></div>
         <div
           className="color-option"
-          onClick={() => dispatch({ type: "DARK" })}
+          onClick={() => dis({ type: "DARK" })}
         ></div>
       </div>
     </SidebarStyled>

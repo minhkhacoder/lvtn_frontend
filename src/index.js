@@ -10,17 +10,21 @@ import { DarkModeContextProvider } from "./contexts/darkModeContext";
 import { theme } from "utils/constants";
 import { GlobalStyles } from "style/GlobalStyles";
 import { ThemeProvider } from "styled-components";
+import { Provider } from "react-redux";
+import { store } from "store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <ThemeProvider theme={theme}>
-    <GlobalStyles></GlobalStyles>
-    <BrowserRouter>
-      <DarkModeContextProvider>
-        <App />
-      </DarkModeContextProvider>
-    </BrowserRouter>
-  </ThemeProvider>
+  <Provider store={store}>
+    <ThemeProvider theme={theme}>
+      <GlobalStyles></GlobalStyles>
+      <BrowserRouter>
+        <DarkModeContextProvider>
+          <App />
+        </DarkModeContextProvider>
+      </BrowserRouter>
+    </ThemeProvider>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
