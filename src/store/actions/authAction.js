@@ -17,7 +17,7 @@ import {
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE,
-} from "./types";
+} from "../types/authTypes";
 
 export const loginRequest = () => ({
   type: LOGIN_REQUEST,

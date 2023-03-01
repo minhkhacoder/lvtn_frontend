@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ThemeProvider } from "@mui/material/styles";
 import { themeMaterial } from "utils/constants";
-import { login } from "store/actions/auth/authAction";
+import { login } from "store/actions/authAction";
 import { getUser } from "utils/cookies";
 
 export default function Login() {

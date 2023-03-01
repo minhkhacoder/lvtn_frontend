@@ -1,23 +1,38 @@
 /** @format */
 
-import ErrorComponent from "components/common/ErrorComponent";
-import Heading from "components/heading/Heading";
-import React, { useEffect, useState } from "react";
-import { withErrorBoundary } from "react-error-boundary";
-import styled from "styled-components";
-import Button from "@mui/material/Button";
 import TreeView from "@mui/lab/TreeView";
 import TreeItem from "@mui/lab/TreeItem";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import styled from "styled-components";
+import SearchIcon from "@mui/icons-material/Search";
+import React, { useEffect, useState } from "react";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
-
-import { themeMaterial } from "utils/constants";
-import { ThemeProvider } from "@mui/material";
+import Heading from "components/heading/Heading";
+import FormGroupTextArea from "components/common/FormGroupTextArea";
 import FormGroupSelect from "components/common/FormGroupSelect";
 import FormGroupInput from "components/common/FormGroupInput";
-import FormGroupTextArea from "components/common/FormGroupTextArea";
 import FormClassify from "components/common/FormClassify";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import AddIcon from "@mui/icons-material/Add";
+import ErrorComponent from "components/common/ErrorComponent";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import Button from "@mui/material/Button";
+import { withErrorBoundary } from "react-error-boundary";
+import { useDispatch, useSelector } from "react-redux";
+import { themeMaterial } from "utils/constants";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  IconButton,
+  InputAdornment,
+  OutlinedInput,
+  ThemeProvider,
+  Typography,
+} from "@mui/material";
+import { getAllCategory } from "store/actions/categoryAction";
+import { getAllBrand } from "store/actions/brandAction";
+const { v4: uuidv4 } = require("uuid");
 
 const AddProductStyled = styled.div`
   margin: 20px;
@@ -44,48 +59,27 @@ const AddProductStyled = styled.div`
 `;
 
 const AddProduct = () => {
-  const [name, setName] = useState("");
-  const [category, setCategory] = useState("");
+  const [cateId, setCateId] = useState("");
+  const [brandItem, setBrandItem] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [brands, setBrands] = useState([]);
   const [fileImages, setFileImages] = useState([]);
+  const dispatch = useDispatch();
+  const { category } = useSelector((state) => state.categories);
+  const { brand } = useSelector((state) => state.brands);
 
-  const categories = [
-    {
-      id: "CAT01",
-      name: "Cycling",
-      children: [
-        {
-          id: "CAT09",
-          name: "Bikes",
-          parent: "CAT01",
-        },
-        {
-          id: "CAT10",
-          name: "Glasses",
-          parent: "CAT01",
-        },
-      ],
-    },
-    {
-      id: "CAT02",
-      name: "Golf",
-      children: [
-        {
-          id: "CAT12",
-          name: "Golf Clubs",
-          parent: "CAT02",
-        },
-        {
-          id: "CAT13",
-          name: "Golf Balls",
-          parent: "CAT02",
-        },
-      ],
-    },
-    {
-      id: "CAT03",
-      name: "Football",
-    },
-  ];
+  useEffect(() => {
+    dispatch(getAllCategory());
+    dispatch(getAllBrand());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (category) setCategories(category);
+  }, [category]);
+
+  useEffect(() => {
+    if (brand) setBrands(brand);
+  }, [brand]);
 
   const handleCapture = (e) => {
     if (e.target.files.length <= 9) {
@@ -106,7 +100,6 @@ const AddProduct = () => {
   const isSticky = (e) => {
     const header = document.querySelector(".save");
     const scrollBottom = window.scrollY;
-    console.log(window.scrollY);
     if (scrollBottom < 80) {
       header.classList.add("is-sticky");
     } else {
@@ -114,12 +107,28 @@ const AddProduct = () => {
     }
   };
 
+  const handleSelectCateId = (id) => {
+    setCateId(id);
+  };
+
+  const handleSelectBrandItem = (bra) => {
+    setBrandItem(bra);
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+  };
+
   return (
     <ThemeProvider theme={themeMaterial}>
       <AddProductStyled className="relative card-shadow">
         <Heading title={"Add product"}></Heading>
         <div className="mx-auto mt-10 mb-5">
-          <form className="grid grid-cols-1 gap-5">
+          <Box
+            className="grid grid-cols-1 gap-5"
+            component="form"
+            onSubmit={handleSubmit}
+          >
             <div className="flex items-start justify-between gap-5">
               <h3 className="text-sm text-text">Upload images</h3>
               <div className="flex justify-start gap-10 w-[800px]">
@@ -161,6 +170,8 @@ const AddProduct = () => {
             </div>
             <FormGroupInput
               label="Name"
+              name="pro_name"
+              id="pro_name"
               placeholder="Please limit product names to 120 characters or less"
             ></FormGroupInput>
             <div className="grid grid-cols-2 gap-5">
@@ -175,21 +186,33 @@ const AddProduct = () => {
                     overflowY: "auto",
                   }}
                 >
-                  {categories.map((cat) => (
-                    <TreeItem key={cat.id} nodeId={cat.id} label={cat.name}>
-                      {cat.children?.length > 0 &&
-                        cat.children.map((child) => (
-                          <TreeItem
-                            key={child.id}
-                            nodeId={child.id}
-                            label={child.name}
-                          />
-                        ))}
-                    </TreeItem>
-                  ))}
+                  {categories?.length > 0 &&
+                    categories.map((cat) => {
+                      return (
+                        <TreeItem
+                          key={uuidv4()}
+                          nodeId={uuidv4()}
+                          label={cat?.cat_name}
+                        >
+                          {cat?.childrens?.length > 0 &&
+                            cat?.childrens.map((child) => {
+                              return (
+                                <TreeItem
+                                  key={uuidv4()}
+                                  nodeId={uuidv4()}
+                                  label={child?.cat_name}
+                                  onClick={() =>
+                                    handleSelectCateId(child?.cat_id)
+                                  }
+                                />
+                              );
+                            })}
+                        </TreeItem>
+                      );
+                    })}
                 </TreeView>
               </FormGroupSelect>
-              <FormGroupSelect label="Brand">
+              <FormGroupSelect label="Brand" value={brandItem?.bra_name}>
                 <TreeView
                   aria-label="file system navigator"
                   defaultCollapseIcon={<ExpandMoreIcon />}
@@ -199,58 +222,110 @@ const AddProduct = () => {
                     maxWidth: 800,
                     overflowY: "auto",
                   }}
+                  className="relative z-10"
                 >
-                  {categories.map((cat) => (
-                    <TreeItem key={cat.id} nodeId={cat.id} label={cat.name}>
-                      {cat.children?.length > 0 &&
-                        cat.children.map((child) => (
-                          <TreeItem
-                            key={child.id}
-                            nodeId={child.id}
-                            label={child.name}
-                          />
-                        ))}
-                    </TreeItem>
-                  ))}
+                  <div className="px-[27px] py-4 fixed w-[430px] t-0 z-[999] bg-white card-shadow">
+                    <OutlinedInput
+                      id="outlined-adornment-search"
+                      type="search"
+                      fullWidth={true}
+                      size="small"
+                      placeholder="Search brand..."
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton edge="end">
+                            <SearchIcon></SearchIcon>
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                    />
+                  </div>
+                  {brands?.length > 0 &&
+                    brands.map((bra) => (
+                      <TreeItem
+                        key={uuidv4()}
+                        nodeId={uuidv4()}
+                        label={bra.bra_name}
+                        onClick={() => handleSelectBrandItem(bra)}
+                      ></TreeItem>
+                    ))}
+                  <div className="fixed w-[430px] bottom-4 z-[999] bg-white card-shadow">
+                    <Accordion className="px-[12px]">
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon className="text-primary" />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                      >
+                        <Typography className="font-semibold uppercase text-primary">
+                          Add brand
+                        </Typography>
+                      </AccordionSummary>
+                      <AccordionDetails className="border-t border-t-slate-200">
+                        <OutlinedInput
+                          id="outlined-adornment-add-brand"
+                          type="text"
+                          fullWidth={true}
+                          size="small"
+                          placeholder="Add new brand..."
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <IconButton edge="end" color="secondary">
+                                <AddIcon></AddIcon>
+                              </IconButton>
+                            </InputAdornment>
+                          }
+                        />
+                      </AccordionDetails>
+                    </Accordion>
+                  </div>
                 </TreeView>
               </FormGroupSelect>
             </div>
             <div className="grid grid-cols-2 gap-5">
               <FormGroupInput
                 label="Material"
+                name="pro_material"
+                id="pro_material"
                 placeholder="Please enter the material of the product"
               ></FormGroupInput>
               <FormGroupInput
                 label="Origin"
+                name="prod_name"
+                id="prod_name"
                 placeholder="Please enter the origin of the product"
               ></FormGroupInput>
             </div>
             <div className="grid grid-cols-2 gap-5">
               <FormGroupInput
                 label="Price"
+                name="pro_price"
+                id="pro_price"
                 placeholder="Please enter the price of the product"
               ></FormGroupInput>
               <FormGroupInput
                 label="Quantity"
+                name="pro_quantity"
+                id="pro_quantity"
                 placeholder="Please enter the quantity of the product"
               ></FormGroupInput>
             </div>
             <FormGroupTextArea
               label="Description"
+              name="pro_desc"
+              id="pro_desc"
               minRows={6}
               placeholder="Please enter the description of the product"
             ></FormGroupTextArea>
-
             <FormClassify></FormClassify>
-          </form>
-        </div>
-        <div className="save">
-          <Button variant="contained" color="error">
-            Cancel
-          </Button>
-          <Button variant="contained" color="primary">
-            Save
-          </Button>
+            <div className="save">
+              <Button variant="contained" color="error">
+                Cancel
+              </Button>
+              <Button variant="contained" color="primary" type="submit">
+                Save
+              </Button>
+            </div>
+          </Box>
         </div>
       </AddProductStyled>
     </ThemeProvider>

@@ -15,7 +15,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Dropdown } from "components/dropdown";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "store/actions/auth/authAction";
+import { logout } from "store/actions/authAction";
 import { getUser } from "utils/cookies";
 
 const SidebarStyled = styled.div`

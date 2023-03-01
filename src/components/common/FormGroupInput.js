@@ -8,7 +8,9 @@ import PropTypes from "prop-types";
 
 const FormGroupInput = ({
   title,
+  id,
   label,
+  name,
   children,
   value,
   className = "",
@@ -19,6 +21,8 @@ const FormGroupInput = ({
     <div className="flex flex-col items-start justify-between gap-2">
       {title}
       <TextField
+        id={id}
+        name={name}
         type={type}
         label={label}
         value={value}
@@ -36,6 +40,8 @@ const FormGroupInput = ({
 
 FormGroupInput.propTypes = {
   title: PropTypes.string,
+  id: PropTypes.string,
+  name: PropTypes.string,
   label: PropTypes.string,
   children: PropTypes.string,
   value: PropTypes.string,

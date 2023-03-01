@@ -7,7 +7,7 @@ import {
   LOGOUT_FAILURE,
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
-} from "store/actions/auth/types";
+} from "store/types/authTypes";
 
 const initialState = {
   auth: null,
