@@ -1,38 +1,22 @@
 /** @format */
-
-import TreeView from "@mui/lab/TreeView";
-import TreeItem from "@mui/lab/TreeItem";
 import styled from "styled-components";
-import SearchIcon from "@mui/icons-material/Search";
 import React, { useEffect, useState } from "react";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import Heading from "components/heading/Heading";
 import FormGroupTextArea from "components/common/FormGroupTextArea";
-import FormGroupSelect from "components/common/FormGroupSelect";
 import FormGroupInput from "components/common/FormGroupInput";
 import FormClassify from "components/common/FormClassify";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import AddIcon from "@mui/icons-material/Add";
 import ErrorComponent from "components/common/ErrorComponent";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Button from "@mui/material/Button";
 import { withErrorBoundary } from "react-error-boundary";
 import { useDispatch, useSelector } from "react-redux";
 import { themeMaterial } from "utils/constants";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  IconButton,
-  InputAdornment,
-  OutlinedInput,
-  ThemeProvider,
-  Typography,
-} from "@mui/material";
+import { Box, ThemeProvider } from "@mui/material";
 import { getAllCategory } from "store/actions/categoryAction";
 import { getAllBrand } from "store/actions/brandAction";
-const { v4: uuidv4 } = require("uuid");
+import MuiSelect from "components/common/MultiSelectDropdown";
+import MultiSelectDropdown from "components/common/MultiSelectDropdown";
+import SelectDropdown from "components/common/SelectDropdown";
 
 const AddProductStyled = styled.div`
   margin: 20px;
@@ -111,8 +95,8 @@ const AddProduct = () => {
     setCateId(id);
   };
 
-  const handleSelectBrandItem = (bra) => {
-    setBrandItem(bra);
+  const handleSelectBrand = (e) => {
+    console.log(e.target.value);
   };
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -169,127 +153,27 @@ const AddProduct = () => {
               </div>
             </div>
             <FormGroupInput
-              label="Name"
               name="pro_name"
               id="pro_name"
               placeholder="Please limit product names to 120 characters or less"
             ></FormGroupInput>
             <div className="grid grid-cols-2 gap-5">
-              <FormGroupSelect label="Category">
-                <TreeView
-                  aria-label="file system navigator"
-                  defaultCollapseIcon={<ExpandMoreIcon />}
-                  defaultExpandIcon={<ChevronRightIcon />}
-                  sx={{
-                    flexGrow: 1,
-                    maxWidth: 800,
-                    overflowY: "auto",
-                  }}
-                >
-                  {categories?.length > 0 &&
-                    categories.map((cat) => {
-                      return (
-                        <TreeItem
-                          key={uuidv4()}
-                          nodeId={uuidv4()}
-                          label={cat?.cat_name}
-                        >
-                          {cat?.childrens?.length > 0 &&
-                            cat?.childrens.map((child) => {
-                              return (
-                                <TreeItem
-                                  key={uuidv4()}
-                                  nodeId={uuidv4()}
-                                  label={child?.cat_name}
-                                  onClick={() =>
-                                    handleSelectCateId(child?.cat_id)
-                                  }
-                                />
-                              );
-                            })}
-                        </TreeItem>
-                      );
-                    })}
-                </TreeView>
-              </FormGroupSelect>
-              <FormGroupSelect label="Brand" value={brandItem?.bra_name}>
-                <TreeView
-                  aria-label="file system navigator"
-                  defaultCollapseIcon={<ExpandMoreIcon />}
-                  defaultExpandIcon={<ChevronRightIcon />}
-                  sx={{
-                    flexGrow: 1,
-                    maxWidth: 800,
-                    overflowY: "auto",
-                  }}
-                  className="relative z-10"
-                >
-                  <div className="px-[27px] py-4 fixed w-[430px] t-0 z-[999] bg-white card-shadow">
-                    <OutlinedInput
-                      id="outlined-adornment-search"
-                      type="search"
-                      fullWidth={true}
-                      size="small"
-                      placeholder="Search brand..."
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton edge="end">
-                            <SearchIcon></SearchIcon>
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                    />
-                  </div>
-                  {brands?.length > 0 &&
-                    brands.map((bra) => (
-                      <TreeItem
-                        key={uuidv4()}
-                        nodeId={uuidv4()}
-                        label={bra.bra_name}
-                        onClick={() => handleSelectBrandItem(bra)}
-                      ></TreeItem>
-                    ))}
-                  <div className="fixed w-[430px] bottom-4 z-[999] bg-white card-shadow">
-                    <Accordion className="px-[12px]">
-                      <AccordionSummary
-                        expandIcon={<ExpandMoreIcon className="text-primary" />}
-                        aria-controls="panel1a-content"
-                        id="panel1a-header"
-                      >
-                        <Typography className="font-semibold uppercase text-primary">
-                          Add brand
-                        </Typography>
-                      </AccordionSummary>
-                      <AccordionDetails className="border-t border-t-slate-200">
-                        <OutlinedInput
-                          id="outlined-adornment-add-brand"
-                          type="text"
-                          fullWidth={true}
-                          size="small"
-                          placeholder="Add new brand..."
-                          endAdornment={
-                            <InputAdornment position="end">
-                              <IconButton edge="end" color="secondary">
-                                <AddIcon></AddIcon>
-                              </IconButton>
-                            </InputAdornment>
-                          }
-                        />
-                      </AccordionDetails>
-                    </Accordion>
-                  </div>
-                </TreeView>
-              </FormGroupSelect>
+              <MultiSelectDropdown
+                data={categories}
+                placeholder={"Please enter the category of the product"}
+              ></MultiSelectDropdown>
+              <SelectDropdown
+                data={brands}
+                placeholder={"Please enter the brand of the product"}
+              ></SelectDropdown>
             </div>
             <div className="grid grid-cols-2 gap-5">
               <FormGroupInput
-                label="Material"
                 name="pro_material"
                 id="pro_material"
                 placeholder="Please enter the material of the product"
               ></FormGroupInput>
               <FormGroupInput
-                label="Origin"
                 name="prod_name"
                 id="prod_name"
                 placeholder="Please enter the origin of the product"
@@ -297,20 +181,18 @@ const AddProduct = () => {
             </div>
             <div className="grid grid-cols-2 gap-5">
               <FormGroupInput
-                label="Price"
                 name="pro_price"
                 id="pro_price"
                 placeholder="Please enter the price of the product"
               ></FormGroupInput>
               <FormGroupInput
-                label="Quantity"
                 name="pro_quantity"
                 id="pro_quantity"
                 placeholder="Please enter the quantity of the product"
               ></FormGroupInput>
             </div>
             <FormGroupTextArea
-              label="Description"
+              // label="Description"
               name="pro_desc"
               id="pro_desc"
               minRows={6}

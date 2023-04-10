@@ -30,12 +30,12 @@ const FormClassify = () => {
           key={index}
         >
           <FormGroupInput
-            label={`Classifycation group ${index + 1}`}
-            placeholder="eg: color etc"
+            // label={`Classifycation group ${index + 1}`}
+            placeholder={`Classifycation group ${index + 1}, eg: color etc`}
           ></FormGroupInput>
           <FormGroupInput
-            label="Product classification"
-            placeholder="eg: White, Red etc"
+            // label="Product classification"
+            placeholder="Product classification, eg: White, Red etc"
           ></FormGroupInput>
           <RemoveCircleIcon
             className="cursor-pointer"

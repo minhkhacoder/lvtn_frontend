@@ -165,12 +165,12 @@ const Sidebar = () => {
               >
                 Add products
               </Dropdown.Option>
-              <Dropdown.Option
+              {/* <Dropdown.Option
                 to="/infringing-products"
                 className="pl-[28px] link py-[5px]"
               >
                 Infringing products
-              </Dropdown.Option>
+              </Dropdown.Option> */}
             </Dropdown.List>
           </Dropdown>
           <Dropdown>
