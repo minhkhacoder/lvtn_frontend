@@ -3,12 +3,14 @@
 import React, { useState } from "react";
 import Select from "react-select";
 import { theme } from "utils/constants";
+import PropTypes from "prop-types";
 
-const MultiSelectDropdown = ({ data, placeholder }) => {
+const MultiSelectDropdown = ({ data, placeholder, onSelect }) => {
   const [selectedOptions, setSelectedOptions] = useState([]);
 
   const handleChange = (selectedOptions) => {
     setSelectedOptions(selectedOptions);
+    onSelect(selectedOptions);
   };
 
   const options = data?.map((item) => ({
@@ -29,6 +31,8 @@ const MultiSelectDropdown = ({ data, placeholder }) => {
         options={options}
         value={selectedOptions}
         onChange={handleChange}
+        isSearchable={true}
+        isClearable={true}
         styles={{
           control: (base, { isFocused }) => ({
             ...base,
@@ -45,10 +49,20 @@ const MultiSelectDropdown = ({ data, placeholder }) => {
             },
             "&:focus": { outline: `2px solid ${theme.primary}` },
           }),
+          clearIndicator: (base) => ({
+            ...base,
+            color: theme.secondary,
+          }),
         }}
       />
     </div>
   );
+};
+
+MultiSelectDropdown.propTypes = {
+  data: PropTypes.array.isRequired,
+  placeholder: PropTypes.string,
+  onSelect: PropTypes.func.isRequired,
 };
 
 export default MultiSelectDropdown;

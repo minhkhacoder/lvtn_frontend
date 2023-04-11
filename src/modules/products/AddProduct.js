@@ -8,16 +8,19 @@ import FormGroupInput from "components/common/FormGroupInput";
 import FormClassify from "components/common/FormClassify";
 import ErrorComponent from "components/common/ErrorComponent";
 import Button from "@mui/material/Button";
+import CloseIcon from "@mui/icons-material/Close";
 import { withErrorBoundary } from "react-error-boundary";
 import { useDispatch, useSelector } from "react-redux";
 import { themeMaterial } from "utils/constants";
 import { Box, ThemeProvider } from "@mui/material";
 import { getAllCategory } from "store/actions/categoryAction";
 import { getAllBrand } from "store/actions/brandAction";
-import MuiSelect from "components/common/MultiSelectDropdown";
 import MultiSelectDropdown from "components/common/MultiSelectDropdown";
 import SelectDropdown from "components/common/SelectDropdown";
+import { getUser } from "utils/cookies";
+import { createProduct } from "store/actions/productAction";
 
+const { v4: uuidv4 } = require("uuid");
 const AddProductStyled = styled.div`
   margin: 20px;
   padding: 20px;
@@ -43,14 +46,16 @@ const AddProductStyled = styled.div`
 `;
 
 const AddProduct = () => {
-  const [cateId, setCateId] = useState("");
-  const [brandItem, setBrandItem] = useState("");
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState([]);
+  const [selectedBrand, setSelectedBrand] = useState([]);
   const [fileImages, setFileImages] = useState([]);
   const dispatch = useDispatch();
   const { category } = useSelector((state) => state.categories);
   const { brand } = useSelector((state) => state.brands);
+
+  const user = JSON.parse(getUser());
 
   useEffect(() => {
     dispatch(getAllCategory());
@@ -74,6 +79,14 @@ const AddProduct = () => {
     }
   };
 
+  const handleDeleteImageItem = (index) => {
+    setFileImages((prevState) => {
+      const newState = [...prevState];
+      newState.splice(index, 1);
+      return newState;
+    });
+  };
+
   useEffect(() => {
     window.addEventListener("scroll", isSticky);
     return () => {
@@ -91,16 +104,43 @@ const AddProduct = () => {
     }
   };
 
-  const handleSelectCateId = (id) => {
-    setCateId(id);
+  const handleSelectedCategory = (selectedOptions) => {
+    setSelectedCategory(selectedOptions);
   };
 
-  const handleSelectBrand = (e) => {
-    console.log(e.target.value);
+  const handleSelectedBrand = (selectedOptions) => {
+    setSelectedBrand(selectedOptions);
   };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    const formData = new FormData();
+    formData.append("seller_id", user["seller_id"]);
+    formData.append("cat_id", selectedCategory["value"]);
+    formData.append("bra_id", selectedBrand["value"]);
+    formData.append("prod_name", data.get("prod_name"));
+    formData.append("pro_name", data.get("pro_name"));
+    formData.append("pro_desc", data.get("pro_desc"));
+    formData.append("pro_material", data.get("pro_material"));
+    formData.append("pro_price", data.get("pro_price"));
+    formData.append("pro_quantity", data.get("pro_quantity"));
+    for (let index = 0; index < fileImages.length; index++) {
+      formData.append("pro_image", fileImages[index]);
+    }
+
+    if (data.getAll("cla_group")) {
+      formData.append("cla_group", data.getAll("cla_group"));
+      formData.append("cla_name", data.getAll("cla_name"));
+    }
+    dispatch(createProduct(formData));
+    event.target.reset();
+    setSelectedCategory([]);
+    setSelectedBrand([]);
+    setFileImages([]);
+    // for (const [key, value] of formData.entries()) {
+    //   console.log(`${key}: ${value}`);
+    // }
   };
 
   return (
@@ -135,17 +175,27 @@ const AddProduct = () => {
                   </Button>
                 </>
                 <div className="w-full">
-                  <div className="flex gap-3 w-[40px] h-[40px]">
+                  <div className="flex gap-3">
                     {fileImages.map((item, index) => {
                       const url = URL.createObjectURL(item);
                       return (
-                        <img
-                          key={index}
-                          src={url}
-                          alt={index}
-                          loading="lazy"
-                          className="object-cover w-full h-full"
-                        />
+                        <div
+                          className="relative w-[40px] h-[40px]"
+                          key={uuidv4()}
+                        >
+                          <img
+                            src={url}
+                            alt={index}
+                            loading="lazy"
+                            className="object-cover w-full h-full border rounded-md shadow-sm border-text2 hover:shadow-lg"
+                          />
+                          <div
+                            className="absolute top-0 right-0 cursor-pointer"
+                            onClick={() => handleDeleteImageItem(index)}
+                          >
+                            <CloseIcon fontSize="16" color="secondary" />
+                          </div>
+                        </div>
                       );
                     })}
                   </div>
@@ -160,10 +210,12 @@ const AddProduct = () => {
             <div className="grid grid-cols-2 gap-5">
               <MultiSelectDropdown
                 data={categories}
+                onSelect={handleSelectedCategory}
                 placeholder={"Please enter the category of the product"}
               ></MultiSelectDropdown>
               <SelectDropdown
                 data={brands}
+                onSelect={handleSelectedBrand}
                 placeholder={"Please enter the brand of the product"}
               ></SelectDropdown>
             </div>

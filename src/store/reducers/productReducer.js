@@ -7,7 +7,7 @@ import {
 } from "store/types/productTypes";
 
 const initialState = {
-  products: null,
+  products: [],
   error: null,
   isLoading: false,
 };
@@ -23,7 +23,6 @@ const productReducer = (state = initialState, action) => {
     case CREATE_PRODUCT_SUCCESS:
       return {
         ...state,
-        products: action.payload,
         isLoading: false,
         error: null,
       };

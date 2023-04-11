@@ -26,6 +26,17 @@ const api = {
     }).then((response) => response.json());
   },
 
+  postFormData: (endpoint, data) => {
+    const accessToken = getAccessToken();
+    return fetch(`${apiUrl}/${endpoint}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: data,
+    }).then((response) => response.json());
+  },
+
   put: (endpoint, data) => {
     const accessToken = getAccessToken();
     return fetch(`${apiUrl}/${endpoint}`, {

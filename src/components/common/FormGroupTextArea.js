@@ -9,6 +9,8 @@ import PropTypes from "prop-types";
 const FormGroupTextArea = ({
   label,
   value,
+  id,
+  name,
   className = "",
   placeholder = "",
   type = "text",
@@ -17,6 +19,8 @@ const FormGroupTextArea = ({
   return (
     <div className="flex flex-col items-start justify-between gap-2">
       <TextField
+        id={id}
+        name={name}
         type={type}
         label={label}
         value={value}

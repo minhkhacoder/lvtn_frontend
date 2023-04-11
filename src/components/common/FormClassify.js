@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { withErrorBoundary } from "react-error-boundary";
 import ErrorComponent from "./ErrorComponent";
 import FormGroupInput from "./FormGroupInput";
@@ -31,10 +31,14 @@ const FormClassify = () => {
         >
           <FormGroupInput
             // label={`Classifycation group ${index + 1}`}
+            name="cla_group"
+            id="cla_group"
             placeholder={`Classifycation group ${index + 1}, eg: color etc`}
           ></FormGroupInput>
           <FormGroupInput
             // label="Product classification"
+            name="cla_name"
+            id="cla_name"
             placeholder="Product classification, eg: White, Red etc"
           ></FormGroupInput>
           <RemoveCircleIcon
