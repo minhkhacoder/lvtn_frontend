@@ -90,7 +90,7 @@ const FeaturedStyled = styled.div`
 `;
 
 const Featured = () => {
-  let percentage = 70;
+  let percentage = 30;
   return (
     <FeaturedStyled className="card-shadow">
       <div className="top">

@@ -8,6 +8,7 @@ const api = {
   get: (endpoint) => {
     const accessToken = getAccessToken();
     return fetch(`${apiUrl}/${endpoint}`, {
+      method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },

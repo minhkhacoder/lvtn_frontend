@@ -4,7 +4,7 @@ import {
   DELETE_IMAGE_FAILURE,
   DELETE_IMAGE_REQUEST,
   DELETE_IMAGE_SUCCESS,
-} from "store/types/images";
+} from "store/types/imagesTypes";
 import api from "utils/api";
 
 export const deteteImageRequest = () => ({

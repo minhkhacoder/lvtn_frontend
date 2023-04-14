@@ -39,5 +39,17 @@ export const themeMaterial = createTheme({
     red: {
       main: "red",
     },
+    yellow: {
+      main: "#FFC107",
+    },
+    orange: {
+      main: "#FF9800",
+    },
+    blue: {
+      main: "#2196F3",
+    },
+    green: {
+      main: "#4CAF50",
+    },
   },
 });

@@ -12,13 +12,28 @@ import React from "react";
 import { withErrorBoundary } from "react-error-boundary";
 import styled from "styled-components";
 
-const data = [
-  { name: "January", Total: 1200 },
-  { name: "February", Total: 2100 },
-  { name: "March", Total: 800 },
-  { name: "April", Total: 1600 },
-  { name: "May", Total: 900 },
-  { name: "June", Total: 1700 },
+// const data = [
+//   { name: "January", total: 1200 },
+//   { name: "February", total: 2100 },
+//   { name: "March", total: 800 },
+//   { name: "April", total: 1600 },
+//   { name: "May", total: 900 },
+//   { name: "June", total: 1700 },
+// ];
+
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
 const ChartStyled = styled.div`
@@ -36,7 +51,25 @@ const ChartStyled = styled.div`
   }
 `;
 
-const Chart = ({ aspect, title }) => {
+const Chart = ({ aspect, title, data }) => {
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth();
+
+  const latestMonthlyRevenue = [];
+  for (let i = 0; i < 6; i++) {
+    const targetDate = new Date(currentYear, currentMonth - i, 1);
+    const targetMonth = months[targetDate.getMonth()];
+    const targetYear = targetDate.getFullYear();
+    const targetRevenue = data.filter(
+      (item) => item.year === targetYear && item.month === targetMonth
+    );
+    console.log(targetRevenue);
+    latestMonthlyRevenue.push({
+      name: targetMonth,
+      total: parseFloat(targetRevenue[0]?.revenue) || 0.0,
+    });
+  }
   return (
     <ChartStyled className="card-shadow">
       <div className="title">{title}</div>
@@ -44,7 +77,7 @@ const Chart = ({ aspect, title }) => {
         <AreaChart
           width={730}
           height={250}
-          data={data}
+          data={latestMonthlyRevenue.reverse()}
           margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
         >
           <defs>
@@ -58,7 +91,7 @@ const Chart = ({ aspect, title }) => {
           <Tooltip />
           <Area
             type="monotone"
-            dataKey="Total"
+            dataKey="total"
             stroke="#7451f8"
             fillOpacity={1}
             fill="url(#total)"
