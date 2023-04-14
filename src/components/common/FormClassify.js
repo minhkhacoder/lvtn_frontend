@@ -8,7 +8,7 @@ import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
 
-const FormClassify = () => {
+const FormClassify = ({ data }) => {
   const [inputField, setInputField] = useState([]);
 
   const addClasificationGroup = () => {
@@ -22,6 +22,14 @@ const FormClassify = () => {
     setInputField(values);
   };
 
+  useEffect(() => {
+    if (data?.length > 0) {
+      setInputField(data);
+    } else {
+      setInputField([]);
+    }
+  }, [data]);
+
   return (
     <>
       {inputField.map((item, index) => (
@@ -33,12 +41,14 @@ const FormClassify = () => {
             // label={`Classifycation group ${index + 1}`}
             name="cla_group"
             id="cla_group"
+            value={item.cla_group}
             placeholder={`Classifycation group ${index + 1}, eg: color etc`}
           ></FormGroupInput>
           <FormGroupInput
             // label="Product classification"
             name="cla_name"
             id="cla_name"
+            value={item.cla_name}
             placeholder="Product classification, eg: White, Red etc"
           ></FormGroupInput>
           <RemoveCircleIcon

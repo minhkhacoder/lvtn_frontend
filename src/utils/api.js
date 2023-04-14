@@ -49,13 +49,26 @@ const api = {
     }).then((response) => response.json());
   },
 
-  delete: (endpoint) => {
+  putFormData: (endpoint, data) => {
+    const accessToken = getAccessToken();
+    return fetch(`${apiUrl}/${endpoint}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: data,
+    }).then((response) => response.json());
+  },
+
+  delete: (endpoint, data) => {
+    console.log(data);
     const accessToken = getAccessToken();
     return fetch(`${apiUrl}/${endpoint}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
+      body: data,
     }).then((response) => response.json());
   },
 };

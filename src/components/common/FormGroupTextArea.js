@@ -15,6 +15,7 @@ const FormGroupTextArea = ({
   placeholder = "",
   type = "text",
   minRows = 1,
+  onChange,
 }) => {
   return (
     <div className="flex flex-col items-start justify-between gap-2">
@@ -31,6 +32,7 @@ const FormGroupTextArea = ({
         size="auto"
         placeholder={placeholder}
         fullWidth={true}
+        onChange={onChange}
       />
     </div>
   );
@@ -43,6 +45,7 @@ FormGroupTextArea.propTypes = {
   placeholder: PropTypes.string,
   className: PropTypes.string,
   minRows: PropTypes.number,
+  onChange: PropTypes.func,
 };
 
 export default withErrorBoundary(FormGroupTextArea, {

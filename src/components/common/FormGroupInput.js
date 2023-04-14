@@ -16,6 +16,7 @@ const FormGroupInput = ({
   className = "",
   placeholder = "",
   type = "text",
+  onChange, // Thêm props onChange
 }) => {
   return (
     <div className="flex flex-col items-start justify-between gap-2">
@@ -31,6 +32,7 @@ const FormGroupInput = ({
         size="small"
         placeholder={placeholder}
         className={className}
+        onChange={onChange}
       >
         {children}
       </TextField>
@@ -48,6 +50,7 @@ FormGroupInput.propTypes = {
   type: PropTypes.string,
   placeholder: PropTypes.string,
   className: PropTypes.string,
+  onChange: PropTypes.func, 
 };
 
 export default withErrorBoundary(FormGroupInput, {

@@ -1,17 +1,21 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import { theme } from "utils/constants";
 import PropTypes from "prop-types";
 
-const SelectDropdown = ({ data, placeholder, onSelect }) => {
+const SelectDropdown = ({ data, placeholder, onSelect, initialValue }) => {
   const [selectedOptions, setSelectedOptions] = useState([]);
 
   const handleChange = (selectedOptions) => {
     setSelectedOptions(selectedOptions);
     onSelect(selectedOptions);
   };
+
+  useEffect(() => {
+    if (initialValue) setSelectedOptions(initialValue);
+  }, [initialValue]);
 
   const options = data?.map((item) => ({
     value: item.id,
