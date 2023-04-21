@@ -14,49 +14,7 @@ import {
   getRevenueMonthInYear,
   getRevenueWeekInYear,
 } from "store/actions/revenuesAction";
-
-const data = [
-  {
-    id: 1,
-    count: 0,
-    name: "Pending",
-  },
-  {
-    id: 2,
-    count: 0,
-    name: "Confirmed",
-  },
-  {
-    id: 3,
-    count: 0,
-    name: "Shipping",
-  },
-  {
-    id: 4,
-    count: 0,
-    name: "Delivered",
-  },
-  {
-    id: 5,
-    count: 0,
-    name: "Completed",
-  },
-  {
-    id: 6,
-    count: 0,
-    name: "Cancelled",
-  },
-  {
-    id: 7,
-    count: 0,
-    name: "Return",
-  },
-  {
-    id: 8,
-    count: 0,
-    name: "product temporarily blocked",
-  },
-];
+import { getAllOrdersStatus } from "store/actions/ordersAction";
 
 const DashboardStyled = styled.div`
   .widgets,
@@ -87,9 +45,11 @@ const DashboardStyled = styled.div`
 const Dashboard = () => {
   const [revenueSixMonth, setRevenueSixMonth] = useState([]);
   const [revenueDayInMonth, setRevenueDayInMonth] = useState([]);
+  const [status, setStatus] = useState([]);
   const { revenuesSixMonth, revenuesDay } = useSelector(
     (state) => state.revenues
   );
+  const { ordersStatus } = useSelector((state) => state.orders);
   const user = getUser() === undefined ? undefined : JSON.parse(getUser());
   const dispatch = useDispatch();
   const today = new Date();
@@ -101,6 +61,7 @@ const Dashboard = () => {
       dispatch(getRevenueDayInMonth(user?.seller_id, currentMonth, 2023));
       dispatch(getRevenueWeekInYear(user?.seller_id, 2023));
       dispatch(getRevenueMonthInYear(user?.seller_id, 2023));
+      dispatch(getAllOrdersStatus(user?.seller_id));
     }
   }, [currentMonth, dispatch, user?.seller_id]);
 
@@ -115,6 +76,13 @@ const Dashboard = () => {
       setRevenueDayInMonth(revenuesDay);
     }
   }, [revenuesDay]);
+
+  useEffect(() => {
+    if (ordersStatus) {
+      setStatus(ordersStatus);
+    }
+  }, [ordersStatus]);
+
   return (
     <DashboardStyled>
       {/* <div className="widgets">
@@ -136,7 +104,7 @@ const Dashboard = () => {
           title={"List work"}
           desc={"Things you will have to do"}
         ></Heading>
-        <ListWork data={data}></ListWork>
+        <ListWork data={status}></ListWork>
       </div>
     </DashboardStyled>
   );

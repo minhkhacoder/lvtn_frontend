@@ -6,6 +6,9 @@ import {
   GET_ALL_ORDERS_FILTER_REQUEST,
   GET_ALL_ORDERS_FILTER_SUCCESS,
   GET_ALL_ORDERS_REQUEST,
+  GET_ALL_ORDERS_STATUS_FAILURE,
+  GET_ALL_ORDERS_STATUS_REQUEST,
+  GET_ALL_ORDERS_STATUS_SUCCESS,
   GET_ALL_ORDERS_SUCCESS,
   GET_DETAIL_ORDER_FAILURE,
   GET_DETAIL_ORDER_REQUEST,
@@ -95,6 +98,25 @@ const ordersReducer = (state = initialState, action) => {
         error: null,
       };
     case GET_ALL_ORDERS_FILTER_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+      };
+    case GET_ALL_ORDERS_STATUS_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        error: null,
+      };
+    case GET_ALL_ORDERS_STATUS_SUCCESS:
+      return {
+        ...state,
+        ordersStatus: action.payload,
+        isLoading: false,
+        error: null,
+      };
+    case GET_ALL_ORDERS_STATUS_FAILURE:
       return {
         ...state,
         isLoading: false,

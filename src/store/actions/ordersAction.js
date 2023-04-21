@@ -6,6 +6,9 @@ import {
   GET_ALL_ORDERS_FILTER_REQUEST,
   GET_ALL_ORDERS_FILTER_SUCCESS,
   GET_ALL_ORDERS_REQUEST,
+  GET_ALL_ORDERS_STATUS_FAILURE,
+  GET_ALL_ORDERS_STATUS_REQUEST,
+  GET_ALL_ORDERS_STATUS_SUCCESS,
   GET_ALL_ORDERS_SUCCESS,
   GET_DETAIL_ORDER_FAILURE,
   GET_DETAIL_ORDER_REQUEST,
@@ -169,6 +172,38 @@ export const getAllOrdersFilter = (
       } else throw Error(response.message);
     } catch (error) {
       dispatch(getAllOrdersFilterFailure(error.message));
+    }
+  };
+};
+
+// ============ GET ALL ORDER STATUS ==============
+
+export const getAllOrdersStatusRequest = () => ({
+  type: GET_ALL_ORDERS_STATUS_REQUEST,
+});
+
+export const getAllOrdersStatusSuccess = (ordersStatus) => ({
+  type: GET_ALL_ORDERS_STATUS_SUCCESS,
+  payload: ordersStatus,
+});
+
+export const getAllOrdersStatusFailure = (error) => ({
+  type: GET_ALL_ORDERS_STATUS_FAILURE,
+  payload: error,
+});
+
+export const getAllOrdersStatus = (sellerId) => {
+  return async (dispatch) => {
+    dispatch(getAllOrdersStatusRequest());
+    try {
+      const response = await api.get(
+        `order/seller/status?sellerId=${sellerId}`
+      );
+      if (response.success) {
+        dispatch(getAllOrdersStatusSuccess(response.data));
+      } else throw Error(response.message);
+    } catch (error) {
+      dispatch(getAllOrdersStatusFailure(error.message));
     }
   };
 };

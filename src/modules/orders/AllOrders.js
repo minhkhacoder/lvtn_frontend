@@ -10,6 +10,7 @@ import {
   TableHead,
   TableRow,
   ThemeProvider,
+  Tooltip,
 } from "@mui/material";
 import Heading from "components/heading/Heading";
 import React, { useEffect, useState } from "react";
@@ -116,13 +117,15 @@ const AllOrders = () => {
       <AllOrdersStyled className="relative card-shadow">
         <div className="flex items-center justify-start gap-2">
           <Heading title={"All orders"}></Heading>
-          <IconButton
-            onClick={() => {
-              window.location.reload();
-            }}
-          >
-            <RestartAltIcon color="secondary"></RestartAltIcon>
-          </IconButton>
+          <Tooltip title="Reset page">
+            <IconButton
+              onClick={() => {
+                window.location.reload();
+              }}
+            >
+              <RestartAltIcon color="secondary"></RestartAltIcon>
+            </IconButton>
+          </Tooltip>
         </div>
         <div className="flex flex-col items-end justify-end gap-4 py-3">
           <div className="flex items-center justify-end gap-4 py-3">

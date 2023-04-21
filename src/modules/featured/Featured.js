@@ -14,6 +14,7 @@ import AnimatedProgressProvider from "components/common/AnimatedProgressProvider
 import FeatureLastWeek from "./FeatureLastWeek";
 import CountUp from "react-countup";
 import FeatureLastMonth from "./FeatureLastMonth";
+import { IconButton, Tooltip } from "@mui/material";
 
 const FeaturedStyled = styled.div`
   flex: 2;
@@ -110,7 +111,11 @@ const Featured = ({ data }) => {
     <FeaturedStyled className="card-shadow">
       <div className="top">
         <Heading title="Total Revenue"></Heading>
-        <HelpOutline className="flex items-center"></HelpOutline>
+        <Tooltip title="Total sales made today">
+          <IconButton>
+            <HelpOutline className="flex items-center"></HelpOutline>
+          </IconButton>
+        </Tooltip>
       </div>
       <div className="bottom">
         <div className="featured-chart">
