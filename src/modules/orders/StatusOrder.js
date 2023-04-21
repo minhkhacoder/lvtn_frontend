@@ -17,11 +17,11 @@ const data = [
   },
   {
     id: 2,
-    name: "Processing",
+    name: "Shipping",
   },
   {
     id: 3,
-    name: "Shipped",
+    name: "Delivered",
   },
   {
     id: 4,
@@ -55,7 +55,7 @@ const StatusOrder = ({ status, orderId }) => {
     if (selectedValue !== "") {
       dispatch(updateStatusOrder(orderId, selectedValue.id));
     }
-  }, [dispatch, selectedValue]);
+  }, [dispatch, orderId, selectedValue]);
 
   switch (status) {
     case 0:
@@ -96,7 +96,7 @@ const StatusOrder = ({ status, orderId }) => {
       return (
         <>
           <Chip
-            label="Processing"
+            label="Shipping"
             color="info"
             size="small"
             onClick={handleClickOpen}
@@ -113,7 +113,7 @@ const StatusOrder = ({ status, orderId }) => {
       return (
         <>
           <Chip
-            label="Shipped"
+            label="Delivered"
             color="success"
             size="small"
             onClick={handleClickOpen}

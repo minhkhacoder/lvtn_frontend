@@ -86,8 +86,7 @@ const NavbarStyled = styled.div`
 `;
 const Navbar = () => {
   const { dispatch } = useContext(DarkModeContext);
-  const user = JSON.parse(getUser());
-  // console.log(user);
+  const user = getUser() === undefined ? undefined : JSON.parse(getUser());
   return (
     <NavbarStyled>
       <div className="wrapper">
@@ -115,7 +114,7 @@ const Navbar = () => {
             <div className="counter">2</div>
           </div> */}
           <div className="item">
-            <img src={user["seller_avatar"]} alt="" className="avatar" />
+            <img src={user?.seller_avatar} alt="" className="avatar" />
           </div>
         </div>
       </div>

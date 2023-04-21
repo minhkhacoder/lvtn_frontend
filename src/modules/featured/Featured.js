@@ -11,6 +11,9 @@ import styled from "styled-components";
 import HelpOutline from "components/icons/HelpOutline";
 import Heading from "components/heading/Heading";
 import AnimatedProgressProvider from "components/common/AnimatedProgressProvider";
+import FeatureLastWeek from "./FeatureLastWeek";
+import CountUp from "react-countup";
+import FeatureLastMonth from "./FeatureLastMonth";
 
 const FeaturedStyled = styled.div`
   flex: 2;
@@ -89,8 +92,20 @@ const FeaturedStyled = styled.div`
   }
 `;
 
-const Featured = () => {
-  let percentage = 30;
+const Featured = ({ data }) => {
+  const today = data?.length > 0 ? data[data?.length - 1]?.revenue : 0;
+  const yesterday = data?.length > 0 ? data[data?.length - 2]?.revenue : 0;
+  let percent = 0;
+  if (yesterday === 0 && today !== 0) {
+    percent = parseInt(today * 100);
+  }
+  if (yesterday !== 0 && today !== 0) {
+    percent = parseInt(((today - yesterday) / yesterday) * 100);
+  }
+  if (today === 0) {
+    percent = 0;
+  }
+  let lastDay = today - yesterday;
   return (
     <FeaturedStyled className="card-shadow">
       <div className="top">
@@ -101,7 +116,7 @@ const Featured = () => {
         <div className="featured-chart">
           <AnimatedProgressProvider
             valueStart={0}
-            valueEnd={percentage}
+            valueEnd={percent}
             duration={1.4}
             easingFunction={easeQuadInOut}
           >
@@ -123,32 +138,38 @@ const Featured = () => {
           </AnimatedProgressProvider>
         </div>
         <p className="title">Total sales made today</p>
-        <p className="amount">$420</p>
+        <p className="amount">
+          $
+          <CountUp
+            start={0.0}
+            end={data[data?.length - 1]?.revenue}
+            decimals={2}
+          ></CountUp>
+        </p>
         <p className="desc">
           Previous transactions processing. Last payments may not be included.
         </p>
         <div className="summary">
           <div className="item">
-            <div className="item-title">Target</div>
-            <div className="item-result negative">
-              <KeyboardArrowDownIcon fontSize="small" />
-              <div className="result-amount">$12.4k</div>
-            </div>
+            <div className="item-title">Last Day</div>
+            {lastDay >= 0 ? (
+              <div className="item-result positive">
+                <KeyboardArrowUpOutlinedIcon fontSize="small" />
+                <div className="result-amount">
+                  $<CountUp start={0.0} end={lastDay} decimals={2}></CountUp>
+                </div>
+              </div>
+            ) : (
+              <div className="item-result negative">
+                <KeyboardArrowDownIcon fontSize="small" />
+                <div className="result-amount">
+                  $<CountUp start={0.0} end={lastDay} decimals={2}></CountUp>
+                </div>
+              </div>
+            )}
           </div>
-          <div className="item">
-            <div className="item-title">Last Week</div>
-            <div className="item-result positive">
-              <KeyboardArrowUpOutlinedIcon fontSize="small" />
-              <div className="result-amount">$12.4k</div>
-            </div>
-          </div>
-          <div className="item">
-            <div className="item-title">Last Month</div>
-            <div className="item-result positive">
-              <KeyboardArrowUpOutlinedIcon fontSize="small" />
-              <div className="result-amount">$12.4k</div>
-            </div>
-          </div>
+          <FeatureLastWeek></FeatureLastWeek>
+          <FeatureLastMonth></FeatureLastMonth>
         </div>
       </div>
     </FeaturedStyled>

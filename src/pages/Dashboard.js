@@ -4,18 +4,22 @@ import Chart from "modules/chart/Chart";
 import Featured from "modules/featured/Featured";
 import Heading from "components/heading/Heading";
 import ListWork from "modules/listwork/ListWork";
-import Widget from "modules/widget/Widget";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getUser } from "utils/cookies";
 import { useDispatch, useSelector } from "react-redux";
-import { getRevenueIntervalSixMonth } from "store/actions/revenuesAction";
+import {
+  getRevenueDayInMonth,
+  getRevenueIntervalSixMonth,
+  getRevenueMonthInYear,
+  getRevenueWeekInYear,
+} from "store/actions/revenuesAction";
 
 const data = [
   {
     id: 1,
     count: 0,
-    name: "Pending confirmation",
+    name: "Pending",
   },
   {
     id: 2,
@@ -25,12 +29,12 @@ const data = [
   {
     id: 3,
     count: 0,
-    name: "Processing",
+    name: "Shipping",
   },
   {
     id: 4,
     count: 0,
-    name: "Shipped",
+    name: "Delivered",
   },
   {
     id: 5,
@@ -45,7 +49,7 @@ const data = [
   {
     id: 7,
     count: 0,
-    name: "Return / Refund",
+    name: "Return",
   },
   {
     id: 8,
@@ -82,22 +86,35 @@ const DashboardStyled = styled.div`
 
 const Dashboard = () => {
   const [revenueSixMonth, setRevenueSixMonth] = useState([]);
-  const { revenues } = useSelector((state) => state.revenues);
-  const user = JSON.parse(getUser());
+  const [revenueDayInMonth, setRevenueDayInMonth] = useState([]);
+  const { revenuesSixMonth, revenuesDay } = useSelector(
+    (state) => state.revenues
+  );
+  const user = getUser() === undefined ? undefined : JSON.parse(getUser());
   const dispatch = useDispatch();
+  const today = new Date();
+  const currentMonth = today.getMonth() + 1;
 
   useEffect(() => {
-    if (user.seller_id) {
-      dispatch(getRevenueIntervalSixMonth(user.seller_id));
+    if (user?.seller_id) {
+      dispatch(getRevenueIntervalSixMonth(user?.seller_id));
+      dispatch(getRevenueDayInMonth(user?.seller_id, currentMonth, 2023));
+      dispatch(getRevenueWeekInYear(user?.seller_id, 2023));
+      dispatch(getRevenueMonthInYear(user?.seller_id, 2023));
     }
-  }, [dispatch, user.seller_id]);
+  }, [currentMonth, dispatch, user?.seller_id]);
 
   useEffect(() => {
-    if (revenues) {
-      setRevenueSixMonth(revenues);
+    if (revenuesSixMonth) {
+      setRevenueSixMonth(revenuesSixMonth);
     }
-  }, [revenues]);
+  }, [revenuesSixMonth]);
 
+  useEffect(() => {
+    if (revenuesDay) {
+      setRevenueDayInMonth(revenuesDay);
+    }
+  }, [revenuesDay]);
   return (
     <DashboardStyled>
       {/* <div className="widgets">
@@ -106,21 +123,20 @@ const Dashboard = () => {
         <Widget type="orders"></Widget>
         <Widget type="rate"></Widget>
       </div> */}
+      <div className="mt-4 charts">
+        <Chart
+          title="Last 6 Months (Revenue)"
+          aspect={2 / 1}
+          data={revenueSixMonth}
+        ></Chart>
+        <Featured data={revenueDayInMonth}></Featured>
+      </div>
       <div className="list-container card-shadow">
         <Heading
           title={"List work"}
           desc={"Things you will have to do"}
         ></Heading>
         <ListWork data={data}></ListWork>
-      </div>
-
-      <div className="charts">
-        <Chart
-          title="Last 6 Months (Revenue)"
-          aspect={2 / 1}
-          data={revenueSixMonth}
-        ></Chart>
-        <Featured></Featured>
       </div>
     </DashboardStyled>
   );

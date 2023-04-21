@@ -64,7 +64,7 @@ const Chart = ({ aspect, title, data }) => {
     const targetRevenue = data.filter(
       (item) => item.year === targetYear && item.month === targetMonth
     );
-    console.log(targetRevenue);
+
     latestMonthlyRevenue.push({
       name: targetMonth,
       total: parseFloat(targetRevenue[0]?.revenue) || 0.0,

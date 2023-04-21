@@ -121,14 +121,14 @@ const OrderDetail = () => {
                 <strong>Ship fee: </strong>
 
                 <span className="text-base text-text1">
-                  ${detailOrder.ship}
+                  ${detailOrder.ship.toFixed(2)}
                 </span>
               </div>
               <div className="w-[150px] flex justify-between items-start">
                 <strong>Total: </strong>
 
                 <span className="text-base text-text1">
-                  ${totals + detailOrder.ship}
+                  ${(totals + detailOrder.ship).toFixed(2)}
                 </span>
               </div>
             </div>

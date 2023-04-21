@@ -17,8 +17,13 @@ import { ThemeProvider } from "@mui/material/styles";
 import { themeMaterial } from "utils/constants";
 import { login } from "store/actions/authAction";
 import { getUser } from "utils/cookies";
+import { useState } from "react";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { IconButton } from "@mui/material";
 
 export default function Login() {
+  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
@@ -43,7 +48,7 @@ export default function Login() {
 
   return (
     <>
-      {user === undefined && (
+      {!user && (
         <ThemeProvider theme={themeMaterial}>
           <Grid container component="main" sx={{ height: "100vh" }}>
             <CssBaseline />
@@ -109,9 +114,19 @@ export default function Login() {
                     fullWidth
                     name="password"
                     label="Password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     id="password"
                     autoComplete="current-password"
+                    InputProps={{
+                      endAdornment: (
+                        <IconButton
+                          onClick={() => setShowPassword(!showPassword)}
+                          edge="end"
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      ),
+                    }}
                   />
 
                   <Button
