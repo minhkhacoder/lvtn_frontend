@@ -2,6 +2,9 @@
 
 import {
   GET_ALL_ORDERS_FAILURE,
+  GET_ALL_ORDERS_FILTER_FAILURE,
+  GET_ALL_ORDERS_FILTER_REQUEST,
+  GET_ALL_ORDERS_FILTER_SUCCESS,
   GET_ALL_ORDERS_REQUEST,
   GET_ALL_ORDERS_SUCCESS,
   GET_DETAIL_ORDER_FAILURE,
@@ -125,6 +128,47 @@ export const updateStatusOrder = (orderId, status) => {
         icon: "error",
         title: error.message,
       });
+    }
+  };
+};
+
+// ============ ORDER FILTER ==============
+
+export const getAllOrdersFilterRequest = () => ({
+  type: GET_ALL_ORDERS_FILTER_REQUEST,
+});
+
+export const getAllOrdersFilterSuccess = (orders) => ({
+  type: GET_ALL_ORDERS_FILTER_SUCCESS,
+  payload: orders,
+});
+
+export const getAllOrdersFilterFailure = (error) => ({
+  type: GET_ALL_ORDERS_FILTER_FAILURE,
+  payload: error,
+});
+
+export const getAllOrdersFilter = (
+  id,
+  phone,
+  status,
+  pay,
+  dateStart,
+  dateEnd,
+  page,
+  limit
+) => {
+  return async (dispatch) => {
+    dispatch(getAllOrdersFilterRequest());
+    try {
+      const response = await api.get(
+        `order/seller/filter?id=${id}&phone=${phone}&status=${status}&pay=${pay}&dateStart=${dateStart}&dateEnd=${dateEnd}&page=${page}&limit=${limit}`
+      );
+      if (response.success) {
+        dispatch(getAllOrdersFilterSuccess(response));
+      } else throw Error(response.message);
+    } catch (error) {
+      dispatch(getAllOrdersFilterFailure(error.message));
     }
   };
 };

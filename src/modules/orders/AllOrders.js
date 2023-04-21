@@ -15,7 +15,7 @@ import Heading from "components/heading/Heading";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getAllOrders } from "store/actions/ordersAction";
+import { getAllOrders, getAllOrdersFilter } from "store/actions/ordersAction";
 import styled from "styled-components";
 import { themeMaterial } from "utils/constants";
 import { getUser } from "utils/cookies";
@@ -23,7 +23,10 @@ import { formatDate } from "utils/formatDate";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import StatusOrder from "./StatusOrder";
 import FormGroupInput from "components/common/FormGroupInput";
-import { getDetailOrder } from "store/actions/ordersAction";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import DropdownStatusOrder from "./DropdownStatusOrder";
+import DropdownPaymentOrder from "./DropdownPaymentOrder";
+import DatePickerMui from "components/common/DatePickerMui";
 
 const AllOrdersStyled = styled.div`
   margin: 20px;
@@ -35,6 +38,11 @@ const AllOrdersStyled = styled.div`
 const AllOrders = () => {
   const [ordersList, setOrdersList] = useState([]);
   const [orderId, setOrderId] = useState("");
+  const [phone, setPhone] = useState("");
+  const [status, setStatus] = useState("");
+  const [pay, setPay] = useState("");
+  const [dateStart, setDateStart] = useState("");
+  const [dateEnd, setDateEnd] = useState("");
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [totals, setTotals] = useState(0);
@@ -45,8 +53,34 @@ const AllOrders = () => {
   const { orders, total } = useSelector((state) => state.orders);
 
   useEffect(() => {
-    dispatch(getAllOrders(user.seller_id, page, limit));
-  }, [dispatch, limit, page, user.seller_id]);
+    if (orderId || phone || status || pay || dateStart || dateEnd) {
+      dispatch(
+        getAllOrdersFilter(
+          orderId,
+          phone,
+          status,
+          pay,
+          dateStart,
+          dateEnd,
+          page,
+          limit
+        )
+      );
+    } else {
+      dispatch(getAllOrders(user.seller_id, page, limit));
+    }
+  }, [
+    dateEnd,
+    dateStart,
+    dispatch,
+    limit,
+    orderId,
+    page,
+    pay,
+    phone,
+    status,
+    user.seller_id,
+  ]);
 
   useEffect(() => {
     if (orders) setOrdersList(orders);
@@ -62,23 +96,61 @@ const AllOrders = () => {
   };
 
   const handleSearch = () => {
-    if (orderId !== "") {
-      dispatch(getDetailOrder(orderId));
-      setTotals(0);
-    }
+    dispatch(
+      getAllOrdersFilter(
+        orderId,
+        phone,
+        status,
+        pay,
+        dateStart,
+        dateEnd,
+        page,
+        limit
+      )
+    );
+    setTotals(0);
   };
 
   return (
     <ThemeProvider theme={themeMaterial}>
       <AllOrdersStyled className="relative card-shadow">
-        <Heading title={"All orders"}></Heading>
-        <div className="flex items-center justify-end gap-4 py-3">
-          <FormGroupInput
-            name="pro_id"
-            id="pro_id"
-            placeholder="Search by ID"
-            onChange={(e) => setOrderId(e.target.value)}
-          ></FormGroupInput>
+        <div className="flex items-center justify-start gap-2">
+          <Heading title={"All orders"}></Heading>
+          <IconButton
+            onClick={() => {
+              window.location.reload();
+            }}
+          >
+            <RestartAltIcon color="secondary"></RestartAltIcon>
+          </IconButton>
+        </div>
+        <div className="flex flex-col items-end justify-end gap-4 py-3">
+          <div className="flex items-center justify-end gap-4 py-3">
+            <FormGroupInput
+              name="pro_id"
+              id="pro_id"
+              placeholder="Search by ID"
+              onChange={(e) => setOrderId(e.target.value)}
+            ></FormGroupInput>
+            <FormGroupInput
+              name="phone"
+              id="phone"
+              placeholder="Search by phone"
+              onChange={(e) => setPhone(e.target.value)}
+            ></FormGroupInput>
+            <DropdownStatusOrder setStatus={setStatus}></DropdownStatusOrder>
+            <DropdownPaymentOrder setPayment={setPay}></DropdownPaymentOrder>
+          </div>
+          <div className="flex gap-4">
+            <div className="flex items-end gap-2">
+              <span className="text-base text-text2">Date Start</span>
+              <DatePickerMui selectDate={setDateStart}></DatePickerMui>
+            </div>
+            <div className="flex items-end gap-2">
+              <span className="text-base text-text2">Date End</span>
+              <DatePickerMui selectDate={setDateEnd}></DatePickerMui>
+            </div>
+          </div>
           <Button variant="contained" color="primary" onClick={handleSearch}>
             Search
           </Button>

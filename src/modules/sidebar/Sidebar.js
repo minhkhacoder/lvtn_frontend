@@ -173,31 +173,17 @@ const Sidebar = () => {
               </Dropdown.Option> */}
             </Dropdown.List>
           </Dropdown>
-          <Dropdown>
-            <Dropdown.Select placeholder="Orders">
+
+          <Link
+            to="/all-orders"
+            style={{ textDecoration: "none" }}
+            className="link"
+          >
+            <li>
               <CreditCardIcon className="icon" />
-            </Dropdown.Select>
-            <Dropdown.List>
-              <Dropdown.Option
-                to="/all-orders"
-                className="pl-[28px] link py-[5px]"
-              >
-                All
-              </Dropdown.Option>
-              <Dropdown.Option
-                to="/cancel-orders"
-                className="pl-[28px] link py-[5px]"
-              >
-                Cancelled
-              </Dropdown.Option>
-              <Dropdown.Option
-                to="/return-refund-orders"
-                className="pl-[28px] link py-[5px]"
-              >
-                Return / Refund
-              </Dropdown.Option>
-            </Dropdown.List>
-          </Dropdown>
+              <span>Orders</span>
+            </li>
+          </Link>
           <Link
             to="/delivery"
             style={{ textDecoration: "none" }}
