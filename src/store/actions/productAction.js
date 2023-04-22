@@ -31,7 +31,6 @@ export const createProductFailure = (error) => ({
 });
 
 export const createProduct = (credentials) => {
-  console.log(credentials);
   const Toast = Swal.mixin({
     toast: true,
     position: "top-end",
@@ -148,7 +147,6 @@ export const updateProductFailure = (error) => ({
 });
 
 export const updateProduct = (credentials) => {
-  console.log(credentials);
   const Toast = Swal.mixin({
     toast: true,
     position: "top-end",

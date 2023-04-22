@@ -50,7 +50,7 @@ FormGroupInput.propTypes = {
   type: PropTypes.string,
   placeholder: PropTypes.string,
   className: PropTypes.string,
-  onChange: PropTypes.func, 
+  onChange: PropTypes.func,
 };
 
 export default withErrorBoundary(FormGroupInput, {

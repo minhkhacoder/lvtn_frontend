@@ -1,11 +1,17 @@
 /** @format */
 
 import React, { useEffect, useState } from "react";
-import Select from "react-select";
+import CreatableSelect from "react-select/creatable";
 import { theme } from "utils/constants";
 import PropTypes from "prop-types";
 
-const MultiSelectDropdown = ({ data, placeholder, onSelect, initialValue }) => {
+const MultiSelectDropdown = ({
+  data,
+  placeholder,
+  onSelect,
+  initialValue,
+  handleCreateOption,
+}) => {
   const [selectedOptions, setSelectedOptions] = useState([]);
 
   const handleChange = (selectedOptions) => {
@@ -30,13 +36,15 @@ const MultiSelectDropdown = ({ data, placeholder, onSelect, initialValue }) => {
 
   return (
     <div>
-      <Select
+      <CreatableSelect
         placeholder={placeholder}
         options={options}
         value={selectedOptions}
         onChange={handleChange}
         isSearchable={true}
         isClearable={true}
+        onCreateOption={handleCreateOption}
+        createOptionPosition="first"
         styles={{
           control: (base, { isFocused }) => ({
             ...base,
@@ -67,6 +75,7 @@ MultiSelectDropdown.propTypes = {
   data: PropTypes.array.isRequired,
   placeholder: PropTypes.string,
   onSelect: PropTypes.func.isRequired,
+  handleCreateOption: PropTypes.func,
 };
 
 export default MultiSelectDropdown;

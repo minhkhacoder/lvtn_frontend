@@ -1,54 +1,54 @@
 /** @format */
 
 import {
-  CREATE_BRAND_FAILURE,
-  CREATE_BRAND_REQUEST,
-  CREATE_BRAND_SUCCESS,
-  GET_ALL_BRAND_FAILURE,
-  GET_ALL_BRAND_REQUEST,
-  GET_ALL_BRAND_SUCCESS,
-} from "store/types/brandTypes";
+  CREATE_PRODUCER_FAILURE,
+  CREATE_PRODUCER_REQUEST,
+  CREATE_PRODUCER_SUCCESS,
+  GET_ALL_PRODUCER_FAILURE,
+  GET_ALL_PRODUCER_REQUEST,
+  GET_ALL_PRODUCER_SUCCESS,
+} from "store/types/producerTypes";
 
 const initialState = {
-  brand: null,
+  producer: null,
   error: null,
   isLoading: false,
 };
 
-const brandReducer = (state = initialState, action) => {
+const producerReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_ALL_BRAND_REQUEST:
+    case GET_ALL_PRODUCER_REQUEST:
       return {
         ...state,
         isLoading: true,
         error: null,
       };
-    case GET_ALL_BRAND_SUCCESS:
+    case GET_ALL_PRODUCER_SUCCESS:
       return {
         ...state,
-        brand: action.payload.data,
+        producer: action.payload.data,
         isLoading: false,
         error: null,
       };
-    case GET_ALL_BRAND_FAILURE:
+    case GET_ALL_PRODUCER_FAILURE:
       return {
         ...state,
         isLoading: false,
         error: action.payload,
       };
-    case CREATE_BRAND_REQUEST:
+    case CREATE_PRODUCER_REQUEST:
       return {
         ...state,
         isLoading: true,
         error: null,
       };
-    case CREATE_BRAND_SUCCESS:
+    case CREATE_PRODUCER_SUCCESS:
       return {
         ...state,
         isLoading: false,
         error: null,
       };
-    case CREATE_BRAND_FAILURE:
+    case CREATE_PRODUCER_FAILURE:
       return {
         ...state,
         isLoading: false,
@@ -58,4 +58,4 @@ const brandReducer = (state = initialState, action) => {
       return state;
   }
 };
-export default brandReducer;
+export default producerReducer;

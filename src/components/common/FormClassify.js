@@ -9,6 +9,7 @@ import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
 
 const FormClassify = ({ data }) => {
+  console.log(data);
   const [inputField, setInputField] = useState([]);
 
   const addClasificationGroup = () => {
@@ -23,33 +24,60 @@ const FormClassify = ({ data }) => {
   };
 
   useEffect(() => {
-    if (data?.length > 0) {
+    if (data && data?.length > 0) {
       setInputField(data);
     } else {
       setInputField([]);
     }
   }, [data]);
 
+  console.log(inputField);
+
+  const handleUpdateClassificationGroup = (index, fieldName, value) => {
+    const updatedFields = inputField.map((item, i) => {
+      if (i === index) {
+        return {
+          ...item,
+          [fieldName]: value,
+        };
+      }
+      return item;
+    });
+    setInputField(updatedFields);
+  };
+
   return (
     <>
-      {inputField.map((item, index) => (
+      {inputField?.map((item, index) => (
         <div
           className="grid items-center w-full grid-cols-3 gap-5 grid-container"
           key={index}
         >
           <FormGroupInput
-            // label={`Classifycation group ${index + 1}`}
             name="cla_group"
             id="cla_group"
             value={item.cla_group}
             placeholder={`Classifycation group ${index + 1}, eg: color etc`}
+            onChange={(event) =>
+              handleUpdateClassificationGroup(
+                index,
+                "cla_group",
+                event.target.value
+              )
+            }
           ></FormGroupInput>
           <FormGroupInput
-            // label="Product classification"
             name="cla_name"
             id="cla_name"
             value={item.cla_name}
             placeholder="Product classification, eg: White, Red etc"
+            onChange={(event) =>
+              handleUpdateClassificationGroup(
+                index,
+                "cla_name",
+                event.target.value
+              )
+            }
           ></FormGroupInput>
           <RemoveCircleIcon
             className="cursor-pointer"

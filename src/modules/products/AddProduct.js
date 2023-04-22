@@ -14,11 +14,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { themeMaterial } from "utils/constants";
 import { Box, ThemeProvider } from "@mui/material";
 import { getAllCategory } from "store/actions/categoryAction";
-import { getAllBrand } from "store/actions/brandAction";
+import { createBrand, getAllBrand } from "store/actions/brandAction";
 import MultiSelectDropdown from "components/common/MultiSelectDropdown";
 import SelectDropdown from "components/common/SelectDropdown";
 import { getUser } from "utils/cookies";
 import { createProduct } from "store/actions/productAction";
+import { createProducer, getAllProducer } from "store/actions/producerAction";
 
 const { v4: uuidv4 } = require("uuid");
 const AddProductStyled = styled.div`
@@ -48,18 +49,22 @@ const AddProductStyled = styled.div`
 const AddProduct = () => {
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
+  const [producers, setProducers] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState([]);
   const [selectedBrand, setSelectedBrand] = useState([]);
+  const [selectedProducer, setSelectedProducer] = useState([]);
   const [fileImages, setFileImages] = useState([]);
   const dispatch = useDispatch();
   const { category } = useSelector((state) => state.categories);
   const { brand } = useSelector((state) => state.brands);
+  const { producer } = useSelector((state) => state.producers);
 
   const user = JSON.parse(getUser());
 
   useEffect(() => {
     dispatch(getAllCategory());
     dispatch(getAllBrand());
+    dispatch(getAllProducer());
   }, [dispatch]);
 
   useEffect(() => {
@@ -69,6 +74,10 @@ const AddProduct = () => {
   useEffect(() => {
     if (brand) setBrands(brand);
   }, [brand]);
+
+  useEffect(() => {
+    if (producer) setProducers(producer);
+  }, [producer]);
 
   const handleCapture = (e) => {
     if (e.target.files.length <= 9) {
@@ -112,6 +121,20 @@ const AddProduct = () => {
     setSelectedBrand(selectedOptions);
   };
 
+  const handleSelectedProducer = (selectedOptions) => {
+    setSelectedProducer(selectedOptions);
+  };
+
+  const handleCreateOptionBrand = (inputValue) => {
+    dispatch(createBrand({ name: inputValue }));
+    dispatch(getAllBrand());
+  };
+
+  const handleCreateOptionProducer = (inputValue) => {
+    dispatch(createProducer({ name: inputValue }));
+    dispatch(getAllProducer());
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -119,7 +142,7 @@ const AddProduct = () => {
     formData.append("seller_id", user["seller_id"]);
     formData.append("cat_id", selectedCategory["value"]);
     formData.append("bra_id", selectedBrand["value"]);
-    formData.append("prod_name", data.get("prod_name"));
+    formData.append("prod_id", selectedProducer["value"]);
     formData.append("pro_name", data.get("pro_name"));
     formData.append("pro_desc", data.get("pro_desc"));
     formData.append("pro_material", data.get("pro_material"));
@@ -137,6 +160,7 @@ const AddProduct = () => {
     event.target.reset();
     setSelectedCategory([]);
     setSelectedBrand([]);
+    setSelectedProducer([]);
     setFileImages([]);
     // for (const [key, value] of formData.entries()) {
     //   console.log(`${key}: ${value}`);
@@ -212,11 +236,14 @@ const AddProduct = () => {
                 data={categories}
                 onSelect={handleSelectedCategory}
                 placeholder={"Please enter the category of the product"}
+                initialValue={selectedCategory}
               ></MultiSelectDropdown>
               <SelectDropdown
                 data={brands}
                 onSelect={handleSelectedBrand}
+                handleCreateOption={handleCreateOptionBrand}
                 placeholder={"Please enter the brand of the product"}
+                initialValue={selectedBrand}
               ></SelectDropdown>
             </div>
             <div className="grid grid-cols-2 gap-5">
@@ -225,11 +252,13 @@ const AddProduct = () => {
                 id="pro_material"
                 placeholder="Please enter the material of the product"
               ></FormGroupInput>
-              <FormGroupInput
-                name="prod_name"
-                id="prod_name"
-                placeholder="Please enter the origin of the product"
-              ></FormGroupInput>
+              <SelectDropdown
+                data={producers}
+                onSelect={handleSelectedProducer}
+                handleCreateOption={handleCreateOptionProducer}
+                placeholder={"Please enter the producer of the product"}
+                initialValue={selectedProducer}
+              ></SelectDropdown>
             </div>
             <div className="grid grid-cols-2 gap-5">
               <FormGroupInput
