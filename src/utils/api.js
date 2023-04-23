@@ -61,15 +61,13 @@ const api = {
     }).then((response) => response.json());
   },
 
-  delete: (endpoint, data) => {
-    console.log(data);
+  delete: (endpoint, id) => {
     const accessToken = getAccessToken();
-    return fetch(`${apiUrl}/${endpoint}`, {
+    return fetch(`${apiUrl}/${endpoint}/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
-      body: data,
     }).then((response) => response.json());
   },
 };

@@ -4,6 +4,9 @@ import {
   CREATE_PRODUCT_FAILURE,
   CREATE_PRODUCT_REQUEST,
   CREATE_PRODUCT_SUCCESS,
+  DELETE_PRODUCT_FAILURE,
+  DELETE_PRODUCT_REQUEST,
+  DELETE_PRODUCT_SUCCESS,
   GET_ALL_PRODUCT_FAILURE,
   GET_ALL_PRODUCT_REQUEST,
   GET_ALL_PRODUCT_SUCCESS,
@@ -93,6 +96,24 @@ const productReducer = (state = initialState, action) => {
         error: null,
       };
     case UPDATE_PRODUCT_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+      };
+    case DELETE_PRODUCT_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        error: null,
+      };
+    case DELETE_PRODUCT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        error: null,
+      };
+    case DELETE_PRODUCT_FAILURE:
       return {
         ...state,
         isLoading: false,

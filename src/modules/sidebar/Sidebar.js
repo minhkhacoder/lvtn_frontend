@@ -17,6 +17,7 @@ import { Dropdown } from "components/dropdown";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "store/actions/authAction";
 import { getUser } from "utils/cookies";
+import RedeemIcon from "@mui/icons-material/Redeem";
 
 const SidebarStyled = styled.div`
   flex: 1;
@@ -184,14 +185,10 @@ const Sidebar = () => {
               <span>Orders</span>
             </li>
           </Link>
-          <Link
-            to="/delivery"
-            style={{ textDecoration: "none" }}
-            className="link"
-          >
+          <Link to="/sales" style={{ textDecoration: "none" }} className="link">
             <li>
-              <LocalShippingIcon className="icon" />
-              <span>Delivery</span>
+              <RedeemIcon className="icon" />
+              <span>Sales</span>
             </li>
           </Link>
 

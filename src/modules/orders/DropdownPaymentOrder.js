@@ -19,7 +19,7 @@ const DropdownPaymentOrder = ({ setPayment }) => {
         inputProps={{ "aria-label": "Without label" }}
       >
         <MenuItem value={""}>
-          <em className="text-text2">Search by Payment</em>
+          <em className="text-text2">Search by payment</em>
         </MenuItem>
         <MenuItem value={"PAY01"} className="text-text2">
           COD

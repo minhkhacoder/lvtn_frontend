@@ -34,6 +34,19 @@ const AllOrdersStyled = styled.div`
   padding: 20px;
   display: flex;
   flex-direction: column;
+  .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
+    padding: 8px !important;
+  }
+  .css-1h7a7rk-MuiInputBase-root-MuiOutlinedInput-root.Mui-error
+    .MuiOutlinedInput-notchedOutline {
+    border-color: rgba(0, 0, 0, 0.23) !important;
+    border-width: 1px !important;
+  }
+  .css-1h7a7rk-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused
+    .MuiOutlinedInput-notchedOutline {
+    border-color: #9965f4 !important;
+    border-width: 2px !important;
+  }
 `;
 
 const AllOrders = () => {

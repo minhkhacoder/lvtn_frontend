@@ -8,6 +8,7 @@ import ordersReducer from "./ordersReducer";
 import producerReducer from "./producerReducer";
 import productReducer from "./productReducer";
 import revenuesReducer from "./revenueReducer";
+import saleReducer from "./saleReducer";
 
 const { combineReducers } = require("@reduxjs/toolkit");
 
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   images: imagesReducer,
   orders: ordersReducer,
   revenues: revenuesReducer,
+  sales: saleReducer,
 });
 
 export default rootReducer;

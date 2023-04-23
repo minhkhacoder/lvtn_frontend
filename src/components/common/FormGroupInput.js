@@ -16,10 +16,13 @@ const FormGroupInput = ({
   className = "",
   placeholder = "",
   type = "text",
-  onChange, // Thêm props onChange
+  onChange,
+  // Thêm props onChange
 }) => {
   return (
-    <div className="flex flex-col items-start justify-between gap-2">
+    <div
+      className={`flex flex-col items-start justify-between gap-2 ${className}`}
+    >
       {title}
       <TextField
         id={id}

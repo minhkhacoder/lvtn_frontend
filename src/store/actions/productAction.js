@@ -4,6 +4,9 @@ import {
   CREATE_PRODUCT_FAILURE,
   CREATE_PRODUCT_REQUEST,
   CREATE_PRODUCT_SUCCESS,
+  DELETE_PRODUCT_FAILURE,
+  DELETE_PRODUCT_REQUEST,
+  DELETE_PRODUCT_SUCCESS,
   GET_ALL_PRODUCT_FAILURE,
   GET_ALL_PRODUCT_REQUEST,
   GET_ALL_PRODUCT_SUCCESS,
@@ -90,8 +93,16 @@ export const getAllProducts = (page, limit) => {
       const response = await api.get(
         `product/seller/all?sellerId=SELLER01&page=${page}&limit=${limit}`
       );
+      const products = response.data.map((product) => {
+        return {
+          ...product,
+          value: 0,
+        };
+      });
       if (response.success) {
-        dispatch(getAllProductSuccess(response));
+        dispatch(
+          getAllProductSuccess({ data: products, total: response.data.total })
+        );
       } else {
         throw Error(response.message);
       }
@@ -171,6 +182,9 @@ export const updateProduct = (credentials) => {
           icon: "success",
           title: response.message,
         });
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
       } else {
         Toast.fire({
           icon: "error",
@@ -180,6 +194,56 @@ export const updateProduct = (credentials) => {
       }
     } catch (error) {
       dispatch(updateProductFailure(error.message));
+    }
+  };
+};
+
+//=========== DELETE PRODUCT ===========
+export const deleteProductRequest = () => ({
+  type: DELETE_PRODUCT_REQUEST,
+});
+
+export const deleteProductSuccess = () => ({
+  type: DELETE_PRODUCT_SUCCESS,
+});
+
+export const deleteProductFailure = (error) => ({
+  type: DELETE_PRODUCT_FAILURE,
+  payload: error,
+});
+
+export const deleteProductById = (credentials) => {
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
+  return async (dispatch) => {
+    dispatch(deleteProductRequest());
+    try {
+      const response = await api.delete("product/seller/delete", credentials);
+
+      if (response.success) {
+        dispatch(deleteProductSuccess());
+        Toast.fire({
+          icon: "success",
+          title: response.message,
+        });
+      } else {
+        Toast.fire({
+          icon: "error",
+          title: response.message,
+        });
+        throw Error(response.message);
+      }
+    } catch (error) {
+      dispatch(deleteProductFailure(error.message));
     }
   };
 };

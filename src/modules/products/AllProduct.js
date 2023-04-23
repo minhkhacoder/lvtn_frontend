@@ -9,11 +9,16 @@ import {
   TableHead,
   TableRow,
   ThemeProvider,
+  Tooltip,
 } from "@mui/material";
 import Heading from "components/heading/Heading";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllProducts, getProductDetail } from "store/actions/productAction";
+import {
+  getAllProducts,
+  getProductDetail,
+  deleteProductById,
+} from "store/actions/productAction";
 import styled from "styled-components";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -21,6 +26,8 @@ import { Pagination } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { themeMaterial } from "utils/constants";
 import FormGroupInput from "components/common/FormGroupInput";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
+
 const AllProductStyled = styled.div`
   margin: 20px;
   padding: 20px;
@@ -55,7 +62,9 @@ const AllProduct = () => {
     navigate(`/update-product/${id}`);
   };
 
-  const deleteProduct = (id) => {};
+  const deleteProduct = (id) => {
+    dispatch(deleteProductById(id));
+  };
 
   const handleSearch = () => {
     if (productId !== "") {
@@ -66,7 +75,18 @@ const AllProduct = () => {
   return (
     <ThemeProvider theme={themeMaterial}>
       <AllProductStyled className="relative card-shadow">
-        <Heading title={"All product"}></Heading>
+        <div className="flex items-center justify-start gap-2">
+          <Heading title={"All products"}></Heading>
+          <Tooltip title="Reset page">
+            <IconButton
+              onClick={() => {
+                window.location.reload();
+              }}
+            >
+              <RestartAltIcon color="secondary"></RestartAltIcon>
+            </IconButton>
+          </Tooltip>
+        </div>
         <div className="flex items-center justify-end gap-4 py-3">
           <FormGroupInput
             name="pro_id"
@@ -126,7 +146,7 @@ const AllProduct = () => {
                   </TableCell>
                 </TableRow>
               ))}
-            {productsList.length === 0 && <strong>Can't found product</strong>}
+            {/* {productsList.length === 0 && <div>Can't found product</div>} */}
           </TableBody>
         </Table>
         <Pagination
