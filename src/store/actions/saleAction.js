@@ -51,7 +51,11 @@ export const createSale = (credentials) => {
         setTimeout(() => {
           window.location.reload();
         }, 3000);
-      } else throw Error(response.message);
+      } else
+        Toast.fire({
+          icon: "error",
+          title: response.message,
+        });
     } catch (error) {
       dispatch(createSaleFailure(error.message));
     }

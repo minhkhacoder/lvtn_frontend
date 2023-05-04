@@ -203,9 +203,9 @@ const UpdateProduct = () => {
     dispatch(updateProduct(formData));
     event.target.reset();
 
-    // for (const [key, value] of formData.entries()) {
-    //   console.log(`${key}: ${value}`);
-    // }
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
   };
 
   return (

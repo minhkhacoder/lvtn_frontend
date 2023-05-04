@@ -52,6 +52,7 @@ export const createProduct = (credentials) => {
         "product/seller/create",
         credentials
       );
+
       if (response.success) {
         dispatch(createProductSuccess());
         Toast.fire({
@@ -93,6 +94,7 @@ export const getAllProducts = (page, limit) => {
       const response = await api.get(
         `product/seller/all?sellerId=SELLER01&page=${page}&limit=${limit}`
       );
+
       const products = response.data.map((product) => {
         return {
           ...product,
@@ -101,7 +103,7 @@ export const getAllProducts = (page, limit) => {
       });
       if (response.success) {
         dispatch(
-          getAllProductSuccess({ data: products, total: response.data.total })
+          getAllProductSuccess({ data: products, total: response.total })
         );
       } else {
         throw Error(response.message);
@@ -176,6 +178,7 @@ export const updateProduct = (credentials) => {
         "product/seller/update",
         credentials
       );
+
       if (response.success) {
         dispatch(updateProductSuccess());
         Toast.fire({

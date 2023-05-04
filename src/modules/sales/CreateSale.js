@@ -49,9 +49,9 @@ export const CreateSale = ({ handleClose }) => {
     for (let index = 0; index < selectedProducts.length; index++) {
       formData.append("pro_id", selectedProducts[index]);
     }
-
     dispatch(createSale(formData));
     handleClose();
+
     // for (const [key, value] of formData.entries()) {
     //   console.log(`${key}: ${value}`);
     // }

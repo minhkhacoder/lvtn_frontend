@@ -25,7 +25,7 @@ export const deleteImage = (credentials) => {
   return async (dispatch) => {
     dispatch(deteteImageRequest());
     try {
-      const response = await api.delete("images/delete", credentials);
+      const response = await api.deleteBody("images/delete", credentials);
       if (response.success) {
         dispatch(deleteImageSuccess(response.message));
       } else throw Error(response.message);

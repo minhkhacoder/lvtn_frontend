@@ -70,6 +70,17 @@ const api = {
       },
     }).then((response) => response.json());
   },
+
+  deleteBody: (endpoint, data) => {
+    const accessToken = getAccessToken();
+    return fetch(`${apiUrl}/${endpoint}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: data,
+    }).then((response) => response.json());
+  },
 };
 
 export default api;
